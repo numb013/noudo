@@ -47,40 +47,40 @@ class GenresController extends AppController {
 			'limit' => '40'
 		);
 		$datas = $this->paginate();
-                $this->set('datas',$datas);
-        }
+    $this->set('datas',$datas);
+  }
 
-        public function admin_add() {
-          $this->layout = "default";
-          if ($this->request->is(array('post', 'put'))) {
-            if ($this->Genre->save($this->request->data)) {
-              return $this->redirect(
-                array('controller' => 'Genres', 'action' => 'admin_index')
-              );
-            } else {
-              return false;
-            }
-          }
-        }
-
-    public function admin_edit($id = null) {
-	$this->layout = "default";
-        if ($this->request->is(array('post', 'put'))) {
-        $status = array(
-            'Genre.name' => '"'.$this->request->data['Genre']['name'].'"',
-        );
-        $conditions = array(
-            'Genre.id' => $this->request->data['Genre']['id'],
-        );
-        $this->Genre->updateAll($status, $conditions);
-
+  public function admin_add() {
+    $this->layout = "default";
+    if ($this->request->is(array('post', 'put'))) {
+      if ($this->Genre->save($this->request->data)) {
         return $this->redirect(
           array('controller' => 'Genres', 'action' => 'admin_index')
         );
-    } else {
+      } else {
+        return false;
+      }
+    }
+  }
+
+  public function admin_edit($id = null) {
+      $this->layout = "default";
+      if ($this->request->is(array('post', 'put'))) {
+      $status = array(
+          'Genre.name' => '"'.$this->request->data['Genre']['name'].'"',
+      );
+      $conditions = array(
+          'Genre.id' => $this->request->data['Genre']['id'],
+      );
+      $this->Genre->updateAll($status, $conditions);
+
+      return $this->redirect(
+        array('controller' => 'Genres', 'action' => 'admin_index')
+      );
+      } else {
       $this->request->data = $this->Genre->find('first',array(
           'conditions' => array(
-            'Genre.id' => $id
+          'Genre.id' => $id
           ),
       ));
     }

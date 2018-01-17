@@ -19,9 +19,9 @@
       <?php echo $this->Form->input('title', array('label' => false, 'div' => false)); ?>
     </td>
   </tr>
-<!--
+
   <tr>
-    <td>性格など</td>
+    <td>アイテムジャンル</td>
     <td>
       <?php
         echo $this->Form->input('Item.item_genre', array(
@@ -34,6 +34,7 @@
       ?>
     </td>
   </tr>
+<!--
   <tr>
     <td>好きなこと</td>
     <td>
@@ -90,6 +91,7 @@
         <th>アイテム名<?php echo $this->Paginator->sort('id');?></th>
         <th>ジャンル</th>
         <th>価格</th>
+        <th>おすすめアイテム</th>
         <th>販売</th>
         <th>詳細</th>
         <th>編集</th>

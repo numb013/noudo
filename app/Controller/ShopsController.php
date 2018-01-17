@@ -69,73 +69,12 @@ class ShopsController extends AppController {
 /*
 /**/
   public function admin_add() {
-
     $this->layout = "default";
     if ($this->request->is(array('post', 'put'))) {
-      //画像処理
-        foreach ($this->request->data['Image'] as $key => $value) {
-          if ($value['error'] == 4) {
-            unset($this->request->data['Image'][$key]);
-          }
-      }
-      if ($this->Session->read('image')) {
-        $Image = $this->Session->read('image');
-        $count = count($this->request->data['Image']);
-        if ($count == 0) {
-          $this->request->data['Image'] = $Image;
-        } else {
-          $countkey = $count - 1;
-          foreach ($this->request->data['Image'] as $key => $phots) {
-            if ($key == $countkey) {
-              foreach ($Image as $key => $value) {
-                $this->request->data['Image'][$count] = $value;
-                $count++;
-              }
-            }
-          }
-        }
-        $this->Session->delete('image');
-      }
-      // 仮アップロード
-      $now = date("YmdHis");
-      $finfo = finfo_open(FILEINFO_MIME_TYPE);
-      foreach($this->request->data['Image'] as $key => $val){
-        if(!$val["tmp_name"]) continue;
-        if(!empty($val["url"])) continue;
-        $files[$key]["name"] = $val["name"];
-        // アップロードされたファイルが画像かどうかチェック
-        list($mime,$ext) = explode("/",finfo_file($finfo, $val["tmp_name"]));
-        if($mime!="image") $err[] = "ファイル{$key} は画像を選択してください";
-        if($mime!="image") unset($files[$key]);
-        if($mime!="image") continue;
-        copy($val["tmp_name"],"files/updir/tmp/" . "{$now}_{$key}.{$ext}");
-        $this->request->data['Image'][$key]["tmp_name"] = "{$now}_{$key}.{$ext}";
-        $this->request->data['Image'][$key]["url"] = "/files/updir/tmp/" ."{$now}_{$key}.{$ext}";
-      }
-
-      finfo_close($finfo);
-      $this->request->data['Shops']['zip'] = $this->request->data['zip'];
-      $this->request->data['Shops']['address1'] = $this->request->data['address1'];
 
       $this->Shop->set($this->request->data);
       // 2. モデル[ModelName]のvalidatesメソッドを使ってバリデーションを行う。
-      if ($this->Shop->validates()) {
-        //画像削除
-        if (!empty($this->request->data['Check'])) {
-          foreach ($this->request->data['Check'] as $key => $Checkd) {
-            if ($Checkd['photo'] != '0') {
-              foreach ($this->request->data['Image'] as $key => $Images) {
-                if ($Images['url'] == $Checkd['photo']) {
-                    unset($this->request->data['Image'][$key]);
-                }
-              }
-            }
-          }
-          if (empty($this->request->data['Image'][0]["name"])) {
-            unset($this->request->data['Image'][0]);
-          }
-          $this->request->data['Image'] = array_merge($this->request->data['Image']);
-        }
+
         $this->_getParameter();
         $options = array(
                 'fields' => array(
@@ -149,29 +88,8 @@ class ShopsController extends AppController {
         );
         $this->set('data',$this->request->data);
         $this->render('/Shops/admin_confirm');
-      } else {
-        if (!empty($this->request->data['Check'])) {
-          foreach ($this->request->data['Check'] as $key => $Checkd) {
-            if ($Checkd['photo'] != '0') {
-              foreach ($this->request->data['Image'] as $key => $Images) {
-                if ($Images['url'] == $Checkd['photo']) {
-                    unset($this->request->data['Image'][$key]);
-                }
-              }
-            }
-          }
-          if (empty($this->request->data['Image'][0]["name"])) {
-            unset($this->request->data['Image'][0]);
-          }
-          $this->request->data['Image'] = array_merge($this->request->data['Image']);
-        }
-        //バリデーションエラーで画像/動画をセッションに保存
-        $this->Session->write('image', $this->request->data['Image']);
-        return false;
       }
-    }
-    $this->_getParameter();
-    $this->Session->delete('image');
+      $this->_getParameter();
   }
 
 
@@ -189,26 +107,26 @@ class ShopsController extends AppController {
 
         //戻るボタン
         if (isset($this->request->data['back'])) {
-        if (!empty($this->request->data['Image'])) {
-            $this->Session->write('image', $this->request->data['Image']);
-        }
-            $this->_getParameter();
-            $options = array(
-                    'fields' => array(
-                            'Shop.id','Shop.name'
-                    ),
-                    'conditions' =>
-                    array(
-                            'delete_flag' => '0'
-                    ),
-                    'recursive'  => -1
-            );
-            $relatedShops = $this->Shop->find('all', $options);
-            foreach ($relatedShops as $key => $relatedShop) {
-                    $related[$relatedShop['Shop']['id']] = $relatedShop['Shop']['name'];
-            }
-            $this->set('related', $related);
 
+            // $this->_getParameter();
+            // $options = array(
+            //         'fields' => array(
+            //                 'Shop.id','Shop.name'
+            //         ),
+            //         'conditions' =>
+            //         array(
+            //                 'delete_flag' => '0'
+            //         ),
+            //         'recursive'  => -1
+            // );
+            // $relatedShops = $this->Shop->find('all', $options);
+            // foreach ($relatedShops as $key => $relatedShop) {
+            //         $related[$relatedShop['Shop']['id']] = $relatedShop['Shop']['name'];
+            // }
+
+
+            // $this->set('data', $this->request->data);
+            $this->_getParameter();
             $this->render('/Shops/admin_add');
         } elseif (isset($this->request->data['regist'])) {
             $data = $this->request->data;
