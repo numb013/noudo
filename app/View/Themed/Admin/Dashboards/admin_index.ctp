@@ -22,6 +22,10 @@
         <td><?php echo $this->Html->link('一覧リンク', array('controller' => 'ItemGenres', 'action' => 'index')); ?></td>
     </tr>
     <tr>
+        <th>トップ画像</th>
+        <td><?php echo $this->Html->link('一覧リンク', array('controller' => 'Topimages', 'action' => 'index')); ?></td>
+    </tr>
+    <tr>
         <th>店舗情報</th>
         <td><?php echo $this->Html->link('一覧リンク', array('controller' => 'Shops', 'action' => 'index')); ?></td>
     </tr>

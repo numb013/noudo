@@ -9,7 +9,7 @@
  *
  * Licensed under The MIT License
  * For full copyright and license information, please see the LICENSE.txt
- * Redistributions of files must retain the above copyright notice.
+ * Redistributions of files must retain the above copyright Item.
  *
  * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
@@ -19,6 +19,8 @@
  */
 
 App::uses('AppController', 'Controller');
+App::uses('Folder', 'Utility');
+App::uses('File', 'Utility');
 
 
 /**
@@ -29,36 +31,107 @@ App::uses('AppController', 'Controller');
  * @package       app.Controller
  * @link http://book.cakephp.org/2.0/en/controllers/pages-controller.html
  */
-class ShopsController extends AppController {
-	public $uses = array('Shop', 'Shop', 'Profession', 'Genre', 'Image');
-	public $components = array('Search.Prg', 'Session', 'Master');
-	public $presetVars = true;
-	public $paginate = array();
+class TopimagesController extends AppController {
+  public $uses = array('Image', 'Genre', 'Topimage');
+  public $components = array('Search.Prg', 'Session', 'Master');
+  public $presetVars = true;
+  public $paginate = array();
 
-        
-        public function index() {
-            $this->layout = "default";
-            $data = $this->Shop->find('first',array(
-                'conditions' => array(
-                  'Shop.delete_flag' => '0'
-                ),
-            ));
-            $this->_getParameter();
-            $this->set('data',$data);
-        }        
-        
-        
-        public function admin_index() {
-            $this->layout = "default";
-            $datas = $this->Shop->find('all',array(
-                'conditions' => array(
-                  'Shop.delete_flag' => '0'
-                ),
-            ));
-            $this->_getParameter();
-            $this->set('datas',$datas);
-        }
 
+  public function index($para = null) {
+    $this->layout = 'default';
+    $this->paginate = array(
+      'limit' => 5,
+    );
+    $this->Prg->commonProcess();
+                $this->paginate['conditions'] = $this->Topimage->parseCriteria($this->passedArgs);
+    if (empty($this->request->data)) {
+      // 初期表示時
+      $this->paginate = array(
+        'conditions' => array(
+           'delete_flag' => '0'
+         ),
+        'order' => array(
+          'modified' => 'DESC',
+        ),
+      );
+    } else {
+      $this->paginate['conditions']['Topimage.delete_flag'] = '0';
+    }
+
+    $datas = $this->paginate();
+    $this->_getParameter();
+    $this->set('datas',$datas);
+  }
+
+
+
+
+  public function search_more($para = null) {
+    $param = (!empty($_SERVER['QUERY_STRING'])) ? '?' . $_SERVER['QUERY_STRING'] : '';
+    $this->_getParameter();
+    $back_flag = 1;
+    $this->set(compact('datas', 'para', 'param', 'back_flag'));
+  }
+
+
+
+  public function detail($id = null, $first = null) {
+    //exit();
+    //echo pr($id);
+    // レイアウト関係
+    $this->layout = "default";
+    if (isset($id)) {
+      $status = array(
+      'conditions' =>
+        array(
+          'Topimage.id' => $id,
+          'Topimage.delete_flag' => 0
+        )
+      );
+      // 以下がデータベース関係
+      $datas = $this->Topimage->find('first', $status);
+    //echo pr($datas);
+    //exit();
+      if (!empty($datas['Topimage']['image_flag'])) {
+        $id = $datas['Topimage']['id'];
+        $status = array(
+          'conditions' =>
+          array(
+            'partner_id' => $id,
+            'partner_name' => 'Topimage',
+            'delete_flag' => '0'
+          )
+        );
+        $datas['Image'] = $this->Image->find('all', $status);
+      }
+
+      $this->set('title_for_layout', $datas['Topimage']['title']);
+      $datas['title'] = $datas['Topimage']['title'];
+
+
+      $this->_getParameter();
+      $know_flag = 1;
+      //直接urlからきたら$first来たら来たらをviewにおくる
+      if (empty($first)) {
+        $first = 1;
+        $this->set('first', $first);
+      }
+      $this->set(compact('datas'));
+    }
+  }
+
+
+  public function admin_index() {
+    $this->layout = "default";
+    $datas = $this->Topimage->find('all',array(
+        'conditions' => array(
+          'Topimage.delete_flag' => '0'
+        ),
+    ));
+    $this->_getParameter();
+    $this->set('datas',$datas);
+  }
 
 /**/
 /*登録箇所
@@ -69,11 +142,10 @@ class ShopsController extends AppController {
 /*
 /**/
   public function admin_add() {
-
     $this->layout = "default";
     if ($this->request->is(array('post', 'put'))) {
       //画像処理
-        foreach ($this->request->data['Image'] as $key => $value) {
+      foreach ($this->request->data['Image'] as $key => $value) {
           if ($value['error'] == 4) {
             unset($this->request->data['Image'][$key]);
           }
@@ -99,6 +171,7 @@ class ShopsController extends AppController {
       // 仮アップロード
       $now = date("YmdHis");
       $finfo = finfo_open(FILEINFO_MIME_TYPE);
+
       foreach($this->request->data['Image'] as $key => $val){
         if(!$val["tmp_name"]) continue;
         if(!empty($val["url"])) continue;
@@ -112,14 +185,11 @@ class ShopsController extends AppController {
         $this->request->data['Image'][$key]["tmp_name"] = "{$now}_{$key}.{$ext}";
         $this->request->data['Image'][$key]["url"] = "/files/updir/tmp/" ."{$now}_{$key}.{$ext}";
       }
-
       finfo_close($finfo);
-      $this->request->data['Shops']['zip'] = $this->request->data['zip'];
-      $this->request->data['Shops']['address1'] = $this->request->data['address1'];
-
-      $this->Shop->set($this->request->data);
+      $this->Topimage->set($this->request->data);
       // 2. モデル[ModelName]のvalidatesメソッドを使ってバリデーションを行う。
-      if ($this->Shop->validates()) {
+      if ($this->Topimage->validates()) {
+
         //画像削除
         if (!empty($this->request->data['Check'])) {
           foreach ($this->request->data['Check'] as $key => $Checkd) {
@@ -136,10 +206,11 @@ class ShopsController extends AppController {
           }
           $this->request->data['Image'] = array_merge($this->request->data['Image']);
         }
+
         $this->_getParameter();
         $options = array(
                 'fields' => array(
-                        'Shop.id','Shop.name'
+                        'Topimage.id','Topimage.title'
                 ),
                 'conditions' =>
                 array(
@@ -147,8 +218,9 @@ class ShopsController extends AppController {
                 ),
                 'recursive'  => -1
         );
+
         $this->set('data',$this->request->data);
-        $this->render('/Shops/admin_confirm');
+        $this->render('/Topimages/admin_confirm');
       } else {
         if (!empty($this->request->data['Check'])) {
           foreach ($this->request->data['Check'] as $key => $Checkd) {
@@ -170,10 +242,10 @@ class ShopsController extends AppController {
         return false;
       }
     }
+
     $this->_getParameter();
     $this->Session->delete('image');
   }
-
 
   /**/
   /*登録DBに登録箇所
@@ -186,73 +258,56 @@ class ShopsController extends AppController {
   public function admin_regist() {
       $this->layout = "default";
     if ($this->request->is(array('post', 'put'))) {
-
         //戻るボタン
         if (isset($this->request->data['back'])) {
+        //バリデーションエラーで画像/動画をセッションに保存
         if (!empty($this->request->data['Image'])) {
             $this->Session->write('image', $this->request->data['Image']);
         }
             $this->_getParameter();
-            $options = array(
-                    'fields' => array(
-                            'Shop.id','Shop.name'
-                    ),
-                    'conditions' =>
-                    array(
-                            'delete_flag' => '0'
-                    ),
-                    'recursive'  => -1
-            );
-            $relatedShops = $this->Shop->find('all', $options);
-            foreach ($relatedShops as $key => $relatedShop) {
-                    $related[$relatedShop['Shop']['id']] = $relatedShop['Shop']['name'];
-            }
-            $this->set('related', $related);
-
-            $this->render('/Shops/admin_add');
+            $this->render('/Topimages/admin_add');
         } elseif (isset($this->request->data['regist'])) {
-            $data = $this->request->data;
-            if (!empty($data['Image'])) {
-              $data['Shop']['image_flag'] = 1;
-              foreach ($data['Image'] as $key => $value) {
-                $data['Image'][$key]['partner_name'] = 'Shop';
-              }
-            }
-            $this->Shop->set($data);
-            // 2. モデル[ModelName]のvalidatesメソッドを使ってバリデーションを行う。
-            if ($this->Shop->validates()) {
-                $this->Shop->save($data['Shop']);
-                $partner_id = $this->Shop->getLastInsertID();
-                if (!empty($data['Image'])) {
-                    foreach($data['Image'] as $key => $val){
-                        $cut = 1;//カットしたい文字数
-                        $val["url"] = substr( $val["url"] , $cut , strlen($val["url"])-$cut );
-                        $file = new File(WWW_ROOT.$val["url"]);
-                        $file->copy(WWW_ROOT."/files/updir/" . $val["tmp_name"],true);
-                        $file = new File(WWW_ROOT.$val["url"]);
-                        $file->delete();
-                        $data['Image'][$key]["url"] = "/files/updir/" . $val["tmp_name"];
-                        $data['Image'][$key]["partner_id"] = $partner_id;
-                    }
-                  foreach ($data['Image'] as $key => $value) {
-                    $this->Image->create(false);
-                    $this->Image->save($value);
-                  }
-                }
-
-              return $this->redirect(
-                array('controller' => 'Shops', 'action' => 'admin_index')
-              );
-            } else {
-                $this->set('data',$data);
-                $this->render('/Shops/admin_add');
-            }
+        $data = $this->request->data;
+        if (!empty($data['Image'])) {
+          $data['Topimage']['image_flag'] = 1;
+          foreach ($data['Image'] as $key => $value) {
+            $data['Image'][$key]['partner_name'] = 'Topimage';
           }
         }
+
+        $this->Topimage->set($data);
+        // 2. モデル[ModelName]のvalidatesメソッドを使ってバリデーションを行う。
+        if ($this->Topimage->validates()) {
+            $this->Topimage->save($data['Topimage']);
+            $partner_id = $this->Topimage->getLastInsertID();
+            if (!empty($data['Image'])) {
+                foreach($data['Image'] as $key => $val){
+                    $cut = 1;//カットしたい文字数
+                    $val["url"] = substr( $val["url"] , $cut , strlen($val["url"])-$cut );
+                    $file = new File(WWW_ROOT.$val["url"]);
+                    $file->copy(WWW_ROOT."/files/updir/" . $val["tmp_name"],true);
+                    $file = new File(WWW_ROOT.$val["url"]);
+                    $file->delete();
+                    $data['Image'][$key]["url"] = "/files/updir/" . $val["tmp_name"];
+                    $data['Image'][$key]["partner_id"] = $partner_id;
+                }
+              foreach ($data['Image'] as $key => $value) {
+                $this->Image->create(false);
+                $this->Image->save($value);
+              }
+            }
+
+          return $this->redirect(
+            array('controller' => 'Topimages', 'action' => 'admin_index')
+          );
+        } else {
+
+          $this->set('data',$data);
+          $this->render('/Topimages/admin_add');
+        }
       }
-
-
-      
+    }
+  }
 
 /**/
 /*編集箇所
@@ -263,9 +318,9 @@ class ShopsController extends AppController {
 /*
 /**/
 public function admin_edit($id = null){
-	// レイアウト関係
-	$this->layout = "default";
-	//変更処理
+  // レイアウト関係
+  $this->layout = "default";
+  //変更処理
   if ($this->request->is(array('post', 'put'))) {
 
     //画像がエラーの物削除
@@ -275,24 +330,24 @@ public function admin_edit($id = null){
         }
     }
     $this->request->data['Image'] = array_merge($this->request->data['Image']);
-		//画像セッション読み込み
-    if ($this->request->data['Shop']['BeforeImage']) {
+    //画像セッション読み込み
+    if ($this->request->data['Topimage']['BeforeImage']) {
       $count = count($this->request->data['Image']);
-			//追加なければセッションの値そのまま入れる
+      //追加なければセッションの値そのまま入れる
       if ($count == 0) {
-        $this->request->data['Image'] = $this->request->data['Shop']['BeforeImage'];
+        $this->request->data['Image'] = $this->request->data['Topimage']['BeforeImage'];
       } else {
         $countkey = $count - 1;
         foreach ($this->request->data['Image'] as $key => $phots) {
           if ($key == $countkey) {
-            foreach ($this->request->data['Shop']['BeforeImage'] as $key => $value) {
+            foreach ($this->request->data['Topimage']['BeforeImage'] as $key => $value) {
               $this->request->data['Image'][$count] = $value;
               $count++;
             }
           }
         }
       }
-			//セッション削除
+      //セッション削除
       $this->Session->delete('image');
     }
     $image = $this->Session->read('image');
@@ -312,26 +367,28 @@ public function admin_edit($id = null){
         // 仮ディレクトリへファイルをアップロード
         copy($val["tmp_name"],"files/updir/tmp/" . "{$now}_{$key}.{$ext}");
         $this->request->data['Image'][$key]["tmp_name"] = "{$now}_{$key}.{$ext}";
-				$this->request->data['Image'][$key]["url"] = "/files/updir/tmp/" ."{$now}_{$key}.{$ext}";
+        $this->request->data['Image'][$key]["url"] = "/files/updir/tmp/" ."{$now}_{$key}.{$ext}";
       }
       finfo_close($finfo);
 
-
-
-      $this->request->data['Shop']['zip'] = $this->request->data['zip'];
-      $this->request->data['Shop']['address1'] = $this->request->data['address1'];
-      $this->Shop->set($this->request->data);
+      $this->Topimage->set($this->request->data);
       // 2. モデル[ModelName]のvalidatesメソッドを使ってバリデーションを行う。
-      if ($this->Shop->validates()) {
+      if ($this->Topimage->validates()) {
         //画像削除チェックの入ったものを削除
+
+        $delete_count = count($this->Session->read('delete_image'));
         if (!empty($this->request->data['Check'])) {
           foreach ($this->request->data['Check'] as $key => $Checkd) {
             if ($Checkd['photo'] != '0') {
+              $delete_count++;
+              $this->Session->write('delete_image.'.$delete_count, $Checkd['photo']);
+
               foreach ($this->request->data['Image'] as $key => $Images) {
                 if ($Images['url'] == $Checkd['photo']) {
                     unset($this->request->data['Image'][$key]);
                 }
               }
+
             }
           }
           if (empty($this->request->data['Image'][0]["url"])) {
@@ -340,68 +397,15 @@ public function admin_edit($id = null){
         }
         $this->request->data['Image'] = array_merge($this->request->data['Image']);
 
-
-
-        //最初に削除していて一回「戻るボタン」して再度「確認」押下時に必要処理
-        //再度削除処理にセットしている
-      if (!empty($this->request->data['photo_dele'])) {
-        if (!empty($this->request->data['Check'])) {
-          $checkcount = count($this->request->data['Check']);
-          foreach ($this->request->data['Check'] as $key => $CheckPhoto) {
-              foreach ($this->request->data['photo_dele'] as $key => $photo_dele) {
-                if ($photo_dele != '0') {
-                  $this->request->data['Check'][$checkcount + $key]['photo'] = $photo_dele;
-                }
-              }
-          }
-        } elseif (!empty($this->request->data['photo_dele'])) {
-          foreach ($this->request->data['photo_dele'] as $key => $photo_dele) {
-            $this->request->data['Check'][$key]['photo']  = $photo_dele;
-          }
-        }
-      }
-
-			//最初に削除していて一回「戻るボタン」して再度「確認」押下時に必要処理
-			//再度削除処理にセットしている
-
-
-			//array_uniqueはソートしてくれる
-			//array_mergeは重複削除
-
-
-      if (!empty($this->request->data['photo_dele'])) {
-        $this->request->data['Check'] = array_unique($this->request->data['Check']);
-        $this->request->data['Check'] = array_merge($this->request->data['Check']);
-        $this->request->data['photo_dele'] = array_unique($this->request->data['photo_dele']);
-        $this->request->data['photo_dele'] = array_merge($this->request->data['photo_dele']);
-      }
-        //画像/動画をセッションに保存
+        //画像をセッションに保存
         $this->Session->write('Image', $this->request->data['Image']);
-				$this->_getParameter();
-
-
-				$options = array(
-					'fields' => array(
-						'Shop.id','Shop.name'
-					),
-					'conditions' => array(
-						'delete_flag' => '0',
-					),
-					'recursive'  => -1
-				);
-
-				$relatedShops = $this->Shop->find('all', $options);
-				foreach ($relatedShops as $key => $relatedShop) {
-					$relatedNmae[$relatedShop['Shop']['id']] = $relatedShop['Shop']['name'];
-				}
-				$this->set('relatedNmae', $relatedNmae);
+        $this->_getParameter();
         $this->set('data',$this->request->data);
-        $this->render('/Shops/admin_edit_confirm');
+        $this->render('/Topimages/admin_edit_confirm');
 
       } else {
         //バリデーションエラーで画像
         $this->Session->write('Image', $this->request->data['Image']);
-
 
         if (!empty($this->request->data['image'])) {
           $photcount = 0;
@@ -418,105 +422,66 @@ public function admin_edit($id = null){
           for ($i=0 ; $i < $photcount; $i++) {
             $this->request->data['Check'][$i] = 0;
           }
-					//降順
+          //降順
           ksort($this->request->data['Check']);
         }
-
         return false;
       }
     } else {
-			//初期処理
+      //初期処理
       if (isset($id)) {
         $status = array(
         'conditions' =>
           array(
-            'Shop.id' => $id,
+            'Topimage.id' => $id,
           )
         );
         // 以下がデータベース関係
-        $this->request->data = $this->Shop->find('first', $status);
-				if (!empty($this->request->data['Image'])) {
+        $this->request->data = $this->Topimage->find('first', $status);
+        if (!empty($this->request->data['Image'])) {
             $this->Session->write('image', $this->request->data['Image']);
         }
-				$this->_getParameter();
-
-				$options = array(
-					'fields' => array(
-						'Shop.id','Shop.name'
-					),
-					'conditions' =>
-					array(
-						'delete_flag' => '0'
-					),
-					'recursive'  => -1
-				);
-				$relatedShops = $this->Shop->find('all', $options);
-				foreach ($relatedShops as $key => $relatedShop) {
-					$related[$relatedShop['Shop']['id']] = $relatedShop['Shop']['name'];
-				}
-				$this->set('related', $related);
+        $this->_getParameter();
       }
-
     }
-
-
   }
 
 
   public function admin_edit_regist(){
       // レイアウト関係
-		$this->layout = "default";
+    $this->layout = "default";
     if ($this->request->is(array('post', 'put'))) {
       //戻るボタン
-        if (isset($this->request->data['back'])) {
-            $Image = $this->Session->read('Image');
-            $this->request->data['Image'] = $Image;
-            //画像/動画をセッションに保存
-            if (!empty($this->request->data['Image'])) {
-              $this->Session->write('Image', $this->request->data['Image']);
-            }
+      if (isset($this->request->data['back'])) {
+        $Image = $this->Session->read('Image');
+        $this->request->data['Image'] = $Image;
+        //画像/動画をセッションに保存
+        if (!empty($this->request->data['Image'])) {
+          $this->Session->write('Image', $this->request->data['Image']);
+        }
 
-
-            $this->_getParameter();
-
-            $options = array(
-                    'fields' => array(
-                            'Shop.id','Shop.name'
-                    ),
-                    'conditions' =>
-                    array(
-                            'delete_flag' => '0'
-                    ),
-                    'recursive'  => -1
-            );
-
-            $relatedShops = $this->Shop->find('all', $options);
-
-            foreach ($relatedShops as $key => $relatedShop) {
-                    $related[$relatedShop['Shop']['id']] = $relatedShop['Shop']['name'];
-            }
-            $this->set('related', $related);
-
-            $this->render('/Shops/admin_edit');
-	} elseif (isset($this->request->data['regist'])) {
+        $this->_getParameter();
+        $this->render('/Topimages/admin_edit');
+      } elseif (isset($this->request->data['regist'])) {
         $data = $this->request->data;
         if (!empty($data['Image'])) {
-          $data['Shop']['image_flag'] = 1;
+          $data['Topimage']['image_flag'] = 1;
           foreach ($data['Image'] as $key => $value) {
-            $data['Image'][$key]['Image']['partner_name'] = 'Shop';
+            $data['Image'][$key]['Image']['partner_name'] = 'Topimage';
           }
         }
 
-        $this->Shop->set($data);
+        $this->Topimage->set($data);
         // 2. モデル[ModelName]のvalidatesメソッドを使ってバリデーションを行う。
-        if ($this->Shop->validates()) {
-            $this->Shop->save($data['Shop']);
-            $partner_id = $data['Shop']['id'];
+        if ($this->Topimage->validates()) {
+            $this->Topimage->save($data['Topimage']);
+            $partner_id = $data['Topimage']['id'];
+            $delete_image = $this->Session->read('delete_image');
+            $this->Session->delete('delete_image');
 
             if (!empty($data['photo_dele'])) {
-              $data['photo_dele'] = array_merge($data['photo_dele']);
+              $data['photo_dele'] = array_merge($delete_image);
             }
-
             //画像削除
             if (!empty($data['photo_dele'])) {
               foreach ($data['photo_dele'] as $key => $photo_dele) {
@@ -530,14 +495,15 @@ public function admin_edit($id = null){
                 $this->Image->create();
               }
             }
+
             if (!empty($data['Image'])) {
               foreach($data['Image'] as $key => $val){
-									$cut = 1;//カットしたい文字数
-									$val['Image']["url"] = substr( $val['Image']["url"] , $cut , strlen($val['Image']["url"])-$cut );
-									$file = new File(WWW_ROOT.$val['Image']["url"]);
-							    $file->copy(WWW_ROOT."/files/updir/" . $val['Image']["tmp_name"],true);
-									$file = new File(WWW_ROOT.$val['Image']["url"]);
-							    $file->delete();
+                  $cut = 1;//カットしたい文字数
+                  $val['Image']["url"] = substr( $val['Image']["url"] , $cut , strlen($val['Image']["url"])-$cut );
+                  $file = new File(WWW_ROOT.$val['Image']["url"]);
+                  $file->copy(WWW_ROOT."/files/updir/" . $val['Image']["tmp_name"],true);
+                  $file = new File(WWW_ROOT.$val['Image']["url"]);
+                  $file->delete();
                   $data['Image'][$key]['Image']["url"] = "/files/updir/" . $val['Image']["tmp_name"];
                   $data['Image'][$key]['Image']["partner_id"] = $partner_id;
                 }
@@ -547,16 +513,14 @@ public function admin_edit($id = null){
               }
             }
 
-          return $this->redirect( array('controller' => 'Shops', 'action' => 'admin_index'));
+          return $this->redirect( array('controller' => 'Topimages', 'action' => 'admin_index'));
         } else {
           $this->set('data',$data);
-          $this->render('/Shops/admin_add');
+          $this->render('/Topimages/admin_add');
         }
       }
     }
-  }      
-      
-      
+  }
 
         /**/
         /*詳細箇所
@@ -569,24 +533,24 @@ public function admin_edit($id = null){
 
         public function admin_detail($id = null){
           // レイアウト関係
-          $this->layout = "default";
+                      $this->layout = "default";
           if (isset($id)) {
             $status = array(
             'conditions' =>
               array(
-                'Shop.id' => $id,
-                'Shop.delete_flag' => 0
+                'Topimage.id' => $id,
+                'Topimage.delete_flag' => 0
               )
             );
             // 以下がデータベース関係
-            $datas = $this->Shop->find('first', $status);
-            if ($datas['Shop']['image_flag']) {
-              $id = $datas['Shop']['id'];
+            $datas = $this->Topimage->find('first', $status);
+            if ($datas['Topimage']['image_flag']) {
+              $id = $datas['Topimage']['id'];
               $status = array(
                 'conditions' =>
                 array(
                   'partner_id' => $id,
-                  'partner_name' => 'Shop',
+                  'partner_name' => 'Topimage',
                   'delete_flag' => '0'
                 )
               );
@@ -606,23 +570,63 @@ public function admin_edit($id = null){
 /*
 /**/
   public function admin_delete($id = null){
-		$this->layout = "default";
+    $this->layout = "default";
     $status = array(
       'delete_flag' => 1,
     );
     $conditions = array(
-      'Shop.id' => $id,
+      'Topimage.id' => $id,
     );
-    $this->Shop->updateAll($status, $conditions);
-    return $this->redirect( array('controller' => 'Shops', 'action' => 'admin_index'));
+    $this->Topimage->updateAll($status, $conditions);
+    return $this->redirect( array('controller' => 'Topimages', 'action' => 'admin_index'));
   }
-  
 
-	public function _getParameter() {
+  public function _getSideContent($datas = null) {
+    //$status = array(
+    //'conditions' => array(
+    //  'image_flag' => '1'
+    //),
+    //'order' => array(
+    //  'created' => 'DESC'
+    //),
+    //'limit' => 6,
+    //);
+    // 以下がデータベース関係
+    //$new_content = $this->Topimage->find('all', $status);
+    $status = array(
+      'fields' => array(
+        'Topimage.id', 'Topimage.title', 'job_salary', 'personality'
+      ),
+      'conditions' =>
+      array(
+        'delete_flag' => 0
+      ),
+      'recursive'  => -1
+    );
+    $related = $this->Topimage->find('all', $status);
 
-                $business_hour = $this->Master->getBusinessHour();
-		$genre = $this->Master->getGenre();
-		$this->set(compact( "genre", "business_hour"));
-		return;
-	}
+    $status = array(
+    'conditions' => array(
+      'image_flag' => '1'
+    ),
+    'order' => array(
+      'core_status' => 'DESC',
+    ),
+    'limit' => 6,
+    );
+    // 以下がデータベース関係
+    $core_content = $this->Topimage->find('all', $status);
+                shuffle($core_content);
+                $this->set(compact("related", "core_content"));
+        }
+
+  public function _getParameter() {
+    $item_genres = $this->Master->getItemGenres();
+    $genre = $this->Master->getGenre();
+    $seasons = $this->Master->getSeason();
+                $size = $this->Master->getSize();
+                $discounts = $this->Master->getDiscount();
+    $this->set(compact("item_genres", "genre", "seasons", "size", "discounts"));
+    return;
+  }
 }

@@ -58,7 +58,7 @@
                   'id' => 'phpto'.$key,
                   'onclick'=> "photodelete('phpto".$key."')",
                   'type' => 'checkbox',
-                  'label' => '削除2',
+                  'label' => '削除',
                   'div' => false,
                   'value' => $phot['url']
                   )); ?>
@@ -69,6 +69,11 @@
           <?php endforeach; ?>
         <?php endif;?>
         </tr>
+        <tr>
+          <th>コード</th>
+          <td><?php echo $this->Form->textarea('Item.ec_shop_code', array('type' => 'text', 'label' => false, 'div' => false, 'rows' => 5, 'style' => 'width:100%')); ?></td>
+        </tr>
+
       <tr>
         <th>テキスト</th>
         <td><?php echo $this->Form->textarea('Item.item_text', array('type' => 'text', 'label' => false, 'div' => false, 'rows' => 5, 'style' => 'width:100%')); ?></td>
@@ -103,7 +108,7 @@
               ));
              ?>
         </td>
-      </tr>   
+      </tr>
 
       <tr>
         <th> シーズン</th>
@@ -135,8 +140,8 @@
               ));
              ?>
         </td>
-      </tr>      
-      
+      </tr>
+
       <tr class="discount_tr" style="display: none;">
           <td>割引</td>
           <td>
@@ -167,7 +172,7 @@
               ));
              ?>
         </td>
-      </tr>   
+      </tr>
 
     </table>
     <?php

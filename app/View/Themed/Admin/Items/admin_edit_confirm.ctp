@@ -48,6 +48,12 @@
             </td>
           </tr>
           <tr>
+            <th>コード</th>
+            <?php $codo = $data['Item']['ec_shop_code']; ?>
+            <td><?php echo h($codo); ?></td>
+            <?php echo $this->Form->hidden('Item.ec_shop_code', array('value' => $data['Item']['ec_shop_code'])); ?>
+          </tr>
+          <tr>
             <th>テキスト</th>
             <td><?php echo $data['Item']['item_text']; ?></td>
             <?php echo $this->Form->hidden('Item.item_text', array('value' => $data['Item']['item_text'])); ?>

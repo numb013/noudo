@@ -75,6 +75,10 @@
         </tr>
          <?php endforeach; ?>
        <?php endif;?>
+       <tr>
+         <th>コード</th>
+         <td><?php echo $this->Form->textarea('ec_shop_code', array('type' => 'text', 'label' => false, 'div' => false, 'rows' => 10, 'style' => 'width:100%')); ?></td>
+       </tr>
       <tr>
         <th>テキスト</th>
         <td><?php echo $this->Form->textarea('item_text', array('type' => 'text', 'label' => false, 'div' => false, 'rows' => 10, 'style' => 'width:100%')); ?></td>
@@ -143,8 +147,8 @@
              ?>
         </td>
       </tr>
- 
-      
+
+
       <tr class="discount_tr" style="display: none;">
           <td>割引</td>
           <td>
@@ -210,8 +214,8 @@
         dom_obj_parent.removeChild(dom_obj);
       }
 
-    
-    
+
+
     $('.sale_flag').click(function(){
             var value = $(this).val();
             if (value == 1) {

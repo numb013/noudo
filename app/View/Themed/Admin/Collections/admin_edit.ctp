@@ -39,7 +39,7 @@
                   'id' => 'phpto'.$key,
                   'onclick'=> "photodelete('phpto".$key."')",
                   'type' => 'checkbox',
-                  'label' => '削除2',
+                  'label' => '削除',
                   'div' => false,
                   'value' => $phot['url']
                   )); ?>

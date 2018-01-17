@@ -1,25 +1,19 @@
 <html>
-<?php
-
-//echo pr($this->request->data);
-
-?>
   <head>
-    <title>性格</title>
-    <?php echo $this->Html->script( 'jquery-2.2.3.min.js'); ?>
-    <link href="jquery.rateyo.min.css" rel="stylesheet" type="text/css">
+    <title>Index Page</title>
   </head>
   <body>
-      <h1>Add Page</h1>
-    <?php echo $this->Form->create('Shops', array('type' => 'file', 'url' => 'edit')); ?>
-      <?php echo $this->Form->input('Shop.id'); ?>
+    <p>MySampleData Edit Form.</p>
+    <?php echo $this->Form->create('Topimage', array('type' => 'file', 'url' => 'edit')); ?>
+    <?php echo $this->Form->input('id'); ?>
     <table class="table table-striped table-bordered table-hover" id="dataTables-example">
       <tr>
-        <th>店名</th>
+        <th>タイトル</th>
         <td>
-          <?php echo $this->Form->input('Shop.name', array('label' => false, 'div' => false)); ?>
+          <?php echo $this->Form->input('title', array('label' => false, 'div' => false)); ?>
         </td>
       </tr>
+
       <tr>
         <tr>
           <td>
@@ -36,96 +30,49 @@
           </td>
         </tr>
         <?php if(!empty($this->request->data['Image'])):?>
-          <?php foreach ($this->request->data['Image'] as $key => $photo): ?>
+          <?php foreach ($this->request->data['Image'] as $key => $phot): ?>
             <tr>
               <td> 画像</td>
               <td>
-                <?php  echo $this->Html->image($photo['url'] ,array('width' => '15%' )); ?>
+                <?php  echo $this->Html->image($phot['url'] ,array('width' => '15%' )); ?>
                 <?php echo $this->Form->input('Check.'.$key.'.photo', array(
                   'id' => 'phpto'.$key,
                   'onclick'=> "photodelete('phpto".$key."')",
                   'type' => 'checkbox',
-                  'label' => '削除2',
+                  'label' => '削除',
                   'div' => false,
-                  'value' => $photo['url']
+                  'value' => $phot['url']
                   )); ?>
               </td>
             </tr>
-            <?php echo $this->Form->hidden('Shop.BeforeImage]['.$key.'][id]', array('value' => $photo['id'])); ?>
-            <?php echo $this->Form->hidden('Shop.BeforeImage]['.$key.'][url]', array('value' => $photo['url'])); ?>
+            <?php //echo $this->Form->hidden('BeforeImage]['.$key.'][id]', array('value' => $phot['id'])); ?>
+            <?php echo $this->Form->hidden('BeforeImage]['.$key.'][url]', array('value' => $phot['url'])); ?>
           <?php endforeach; ?>
         <?php endif;?>
         </tr>
       <tr>
-        <th>営業時間</th>
-        <td>
-        <?php
-            echo $this->Form->input('Shop.business_hour_start', array(
-                'type' => 'select',
-                'label' => false,
-                'div' => false,
-                'multiple'=> 'size',
-                'options' => $business_hour,
-            ));
-          ?>
-            ～
-        <?php
-            echo $this->Form->input('Shop.business_hour_end', array(
-                'type' => 'select',
-                'label' => false,
-                'div' => false,
-                'multiple'=> 'size',
-                'options' => $business_hour,
-            ));
-          ?>
-        </td>
-      </tr>
-      <tr>
-        <th>郵便番号</th>
-        <td>
-          <?php echo $this->Form->input('Shop.zip', array('name' => 'zip', 'label' => false, 'div' => false, 'onKeyUp' => "AjaxZip3.zip2addr(this,'','Shop.address1','Shop.address1')")); ?>
-        </td>
-      </tr>
-      <tr>
-        <th>住所1</th>
-        <td>
-          <?php echo $this->Form->input('Shop.address1', array('name' => 'Shop.address1', 'label' => false, 'div' => false)); ?>
-        </td>
-      </tr>
-      <tr>
-        <th>住所2</th>
-        <td>
-          <?php echo $this->Form->input('Shop.address2', array('label' => false, 'div' => false)); ?>
-        </td>
-      </tr>
-      <tr>
-        <th>電話番号</th>
-        <td>
-          <?php echo $this->Form->input('Shop.tel', array('label' => false, 'div' => false)); ?>
-        </td>
-      </tr>
-      <tr>
-        <th>メールアドレス</th>
-        <td>
-          <?php echo $this->Form->input('Shop.mail_address', array('label' => false, 'div' => false)); ?>
-        </td>
-      </tr>
-      <tr>
-        <th>グーグルマップ<br>埋め込みURLのダブルクォーテーションの部分のみ</th>
-        <td>
-          <?php echo $this->Form->input('Shop.map_url', array('label' => false, 'div' => false)); ?>
-        </td>
-      </tr>
-      <tr>
         <th>テキスト</th>
-        <td>
-          <?php echo $this->Form->input('Shop.text', array('label' => false, 'div' => false)); ?>
-        </td>
+        <td><?php echo $this->Form->textarea('Topimage.text', array('type' => 'text', 'label' => false, 'div' => false, 'rows' => 5, 'style' => 'width:100%')); ?></td>
       </tr>
-    </table>
-    <?php echo $this->Form->end('Submit'); ?>
-    <?php echo $this->Html->link('一覧へ', array('controller' => 'Shops', 'action' => 'index')); ?>
 
+    </table>
+    <?php
+    if (!empty($this->request->data['photo_dele'])) {
+      foreach ($this->request->data['photo_dele'] as $key => $PhotoDele) {
+        echo $this->Form->hidden('photo_dele]['.$key, array('value' => $PhotoDele));
+      }
+    } elseif (!empty($this->request->data['Check'])) {
+        foreach ($this->request->data['Check'] as $key => $CheckPhoto) {
+          echo $this->Form->hidden('photo_dele]['.$key, array('value' => $CheckPhoto['photo']));
+        }
+      }
+    ?>
+
+    <div class="buttom_edit" style="float:left; margin-right:50px;">
+      <?php echo $this->Form->end('submit') ;?>
+    </div>
+
+    <?php echo $this->Html->link('戻る', array('controller' => 'Topimages', 'action' => 'index')); ?>
 
     <script type="text/javascript">
       function photodelete(chkID){
@@ -150,25 +97,14 @@
               = document.getElementById('show').innerHTML + txt;
           todoNum++;
       }
+
       function del(todoNum) {
         var photodel = 'Image' + todoNum;
         var dom_obj=document.getElementById(photodel);
         var dom_obj_parent=dom_obj.parentNode;
         dom_obj_parent.removeChild(dom_obj);
       }
-
-    
-    
-    $('.sale_flag').click(function(){
-            var value = $(this).val();
-            if (value == 1) {
-                $('.discount_tr').css('display', 'block');
-            } else {
-                $('.discount_tr').css('display', 'none');
-            }
-        });
     </script>
-
 
   </body>
 </html>

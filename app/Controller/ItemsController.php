@@ -186,6 +186,11 @@ class ItemsController extends AppController {
   public function admin_add() {
     $this->layout = "default";
     if ($this->request->is(array('post', 'put'))) {
+
+
+
+
+
       //画像処理
       foreach ($this->request->data['Image'] as $key => $value) {
           if ($value['error'] == 4) {
@@ -325,7 +330,7 @@ class ItemsController extends AppController {
             $this->set('related', $related);
 
             $this->render('/Items/admin_add');
-        } elseif (isset($this->request->data['regist'])) {            
+        } elseif (isset($this->request->data['regist'])) {
         $this->request->data['Item']['item_genre'] = implode(",", $this->request->data['Item']['item_genre']);
         $data = $this->request->data;
         if (!empty($data['Image'])) {
@@ -338,9 +343,9 @@ class ItemsController extends AppController {
         $this->Item->set($data);
         // 2. モデル[ModelName]のvalidatesメソッドを使ってバリデーションを行う。
         if ($this->Item->validates()) {
-           
-            
-            
+
+
+
             $this->Item->save($data['Item']);
             $partner_id = $this->Item->getLastInsertID();
 
@@ -387,6 +392,8 @@ public function admin_edit($id = null){
   $this->layout = "default";
   //変更処理
   if ($this->request->is(array('post', 'put'))) {
+
+
 
     //画像がエラーの物削除
     foreach ($this->request->data['Image'] as $key => $value) {
@@ -600,7 +607,7 @@ public function admin_edit($id = null){
             $delete_image = $this->Session->read('delete_image');
             $this->Session->delete('delete_image');
 
-            if (!empty($data['photo_dele'])) {
+            if (!empty($delete_image)) {
               $data['photo_dele'] = array_merge($delete_image);
             }
             //画像削除

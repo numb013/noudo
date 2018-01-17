@@ -5,8 +5,8 @@
   <body>
 
 
-      
-      
+
+
     <h1>Edit Page</h1>
     <p>MySampleData Edit Form.</p>
     <?php echo $this->Form->create('Item', array('type' => 'file', 'url' => 'regist')); ?>
@@ -47,6 +47,12 @@
                 なし
               <?php endif; ?>
             </td>
+          </tr>
+          <tr>
+            <th>コード</th>
+            <?php $codo = $data['Item']['ec_shop_code']; ?>
+            <td><?php echo h($codo); ?></td>
+            <?php echo $this->Form->hidden('Item.ec_shop_code', array('value' => $data['Item']['ec_shop_code'])); ?>
           </tr>
           <tr>
             <th>テキスト</th>

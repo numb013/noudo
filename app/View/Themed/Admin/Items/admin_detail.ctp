@@ -34,6 +34,11 @@
           <td><?php echo $genre[$data['Item']['genre'][0]]; ?></td>
         </tr>
         <tr>
+          <td>コード</td>
+          <td><?php echo h($data['Item']['ec_shop_code']); ?></td>
+        </tr>
+
+        <tr>
           <td>テキスト</td>
           <td><?php echo $data['Item']['item_text']; ?></td>
         </tr>
