@@ -92,7 +92,7 @@
         <th>おすすめアイテム</th>
         <td>
             <?php
-              $options = array('0' => 'する', '1' => 'しない');
+              $options = array('0' => 'しない', '1' => 'する');
               echo $this->Form->input('Item.pick_up_item', array(
                   'legend' => false,
                   'type' => 'radio',

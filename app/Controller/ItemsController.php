@@ -127,7 +127,21 @@ class ItemsController extends AppController {
 
 
   public function admin_index() {
-      $this->layout = 'default';
+    $this->layout = 'default';
+    if ($this->request->is(array('post', 'put'))) {
+      foreach ($this->request->data['Item'] as $key => $value) {
+          $status = array(
+            'sale_type' => $value['sale_type'],
+            'pick_up_item' => $value['pick_up_item'],
+          );
+
+          $conditions = array(
+            'Item.id' => $value['id'],
+          );
+          $this->Item->updateAll($status, $conditions);
+      }
+    }
+
     $this->paginate = array(
       'limit' => 5,
     );
