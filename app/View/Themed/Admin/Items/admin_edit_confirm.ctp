@@ -65,6 +65,15 @@
             </td>
           </tr>
           <tr>
+            <th>おすすめアイテム</th>
+            <td>
+                <?php
+                    echo $data['Item']['sale_type'] == 0 ? 'しない':'する';
+                ?>
+            </td>
+            <?php echo $this->Form->hidden('Item.pick_up_item', array('value' => $data['Item']['pick_up_item'])); ?>
+          </tr>
+          <tr>
             <th>シーズン</th>
             <td><?php echo $seasons[$data['Item']['season'][0]]; ?></td>
             <?php echo $this->Form->hidden('Item.season', array('value' => $data['Item']['season'][0])); ?>

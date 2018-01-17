@@ -21,6 +21,8 @@
 App::uses('AppController', 'Controller');
 App::uses('Folder', 'Utility');
 App::uses('File', 'Utility');
+
+
 /**
  * Static content controller
  *
@@ -37,7 +39,7 @@ class ItemsController extends AppController {
 
 
   public function index($para = null) {
-                $this->layout = 'default';
+    $this->layout = 'default';
     $this->paginate = array(
       'limit' => 5,
     );
@@ -66,6 +68,9 @@ class ItemsController extends AppController {
     $this->set('datas',$datas);
   }
 
+
+
+
   public function search_more($para = null) {
     $param = (!empty($_SERVER['QUERY_STRING'])) ? '?' . $_SERVER['QUERY_STRING'] : '';
     $this->_getParameter();
@@ -75,50 +80,50 @@ class ItemsController extends AppController {
 
 
 
-public function detail($id = null, $first = null) {
-  //exit();
-  //echo pr($id);
-  // レイアウト関係
-  $this->layout = "default";
-  if (isset($id)) {
-    $status = array(
-    'conditions' =>
-      array(
-        'Item.id' => $id,
-        'Item.delete_flag' => 0
-      )
-    );
-    // 以下がデータベース関係
-    $datas = $this->Item->find('first', $status);
-  //echo pr($datas);
-  //exit();
-    if (!empty($datas['Item']['image_flag'])) {
-      $id = $datas['Item']['id'];
+  public function detail($id = null, $first = null) {
+    //exit();
+    //echo pr($id);
+    // レイアウト関係
+    $this->layout = "default";
+    if (isset($id)) {
       $status = array(
-        'conditions' =>
+      'conditions' =>
         array(
-          'partner_id' => $id,
-          'partner_name' => 'Item',
-          'delete_flag' => '0'
+          'Item.id' => $id,
+          'Item.delete_flag' => 0
         )
       );
-      $datas['Image'] = $this->Image->find('all', $status);
-    }
+      // 以下がデータベース関係
+      $datas = $this->Item->find('first', $status);
+    //echo pr($datas);
+    //exit();
+      if (!empty($datas['Item']['image_flag'])) {
+        $id = $datas['Item']['id'];
+        $status = array(
+          'conditions' =>
+          array(
+            'partner_id' => $id,
+            'partner_name' => 'Item',
+            'delete_flag' => '0'
+          )
+        );
+        $datas['Image'] = $this->Image->find('all', $status);
+      }
 
-    $this->set('title_for_layout', $datas['Item']['title'].'の仕事内容・なりかた・給料・向いてる性格');
-    $datas['title'] = $datas['Item']['title'].'の仕事内容・なりかた・給料・向いてる性格';
-    $datas['Item']['item_genre'] = explode(",", $datas['Item']['item_genre']);
+      $this->set('title_for_layout', $datas['Item']['title'].'の仕事内容・なりかた・給料・向いてる性格');
+      $datas['title'] = $datas['Item']['title'].'の仕事内容・なりかた・給料・向いてる性格';
+      $datas['Item']['item_genre'] = explode(",", $datas['Item']['item_genre']);
 
-    $this->_getParameter();
-    $know_flag = 1;
-    //直接urlからきたら$first来たら来たらをviewにおくる
-    if (empty($first)) {
-      $first = 1;
-      $this->set('first', $first);
+      $this->_getParameter();
+      $know_flag = 1;
+      //直接urlからきたら$first来たら来たらをviewにおくる
+      if (empty($first)) {
+        $first = 1;
+        $this->set('first', $first);
+      }
+      $this->set(compact('datas'));
     }
-    $this->set(compact('datas'));
   }
-}
 
 
   public function admin_index() {
@@ -153,6 +158,8 @@ public function detail($id = null, $first = null) {
     $this->_getParameter();
     $this->set('datas',$datas);
   }
+
+
 
 /**/
 /*登録箇所
@@ -263,6 +270,7 @@ public function detail($id = null, $first = null) {
         return false;
       }
     }
+
     $this->_getParameter();
     $this->Session->delete('image');
   }
@@ -365,6 +373,7 @@ public function admin_edit($id = null){
   $this->layout = "default";
   //変更処理
   if ($this->request->is(array('post', 'put'))) {
+
     //画像がエラーの物削除
     foreach ($this->request->data['Image'] as $key => $value) {
         if ($value['error'] == 4) {
@@ -393,6 +402,8 @@ public function admin_edit($id = null){
       $this->Session->delete('image');
     }
     $image = $this->Session->read('image');
+
+
     //空のデータが入ってくるので削除
     $now = date("YmdHis");
     $finfo = finfo_open(FILEINFO_MIME_TYPE);
@@ -417,14 +428,20 @@ public function admin_edit($id = null){
       // 2. モデル[ModelName]のvalidatesメソッドを使ってバリデーションを行う。
       if ($this->Item->validates()) {
         //画像削除チェックの入ったものを削除
+
+        $delete_count = count($this->Session->read('delete_image'));
         if (!empty($this->request->data['Check'])) {
           foreach ($this->request->data['Check'] as $key => $Checkd) {
             if ($Checkd['photo'] != '0') {
+              $delete_count++;
+              $this->Session->write('delete_image.'.$delete_count, $Checkd['photo']);
+
               foreach ($this->request->data['Image'] as $key => $Images) {
                 if ($Images['url'] == $Checkd['photo']) {
                     unset($this->request->data['Image'][$key]);
                 }
               }
+
             }
           }
           if (empty($this->request->data['Image'][0]["url"])) {
@@ -433,39 +450,7 @@ public function admin_edit($id = null){
         }
         $this->request->data['Image'] = array_merge($this->request->data['Image']);
 
-        //最初に削除していて一回「戻るボタン」して再度「確認」押下時に必要処理
-        //再度削除処理にセットしている
-      if (!empty($this->request->data['photo_dele'])) {
-        if (!empty($this->request->data['Check'])) {
-          $checkcount = count($this->request->data['Check']);
-          foreach ($this->request->data['Check'] as $key => $CheckPhoto) {
-              foreach ($this->request->data['photo_dele'] as $key => $photo_dele) {
-                if ($photo_dele != '0') {
-                  $this->request->data['Check'][$checkcount + $key]['photo'] = $photo_dele;
-                }
-              }
-          }
-        } elseif (!empty($this->request->data['photo_dele'])) {
-          foreach ($this->request->data['photo_dele'] as $key => $photo_dele) {
-            $this->request->data['Check'][$key]['photo']  = $photo_dele;
-          }
-        }
-      }
-
-      //最初に削除していて一回「戻るボタン」して再度「確認」押下時に必要処理
-      //再度削除処理にセットしている
-
-
-      //array_uniqueはソートしてくれる
-      //array_mergeは重複削除
-      if (!empty($this->request->data['photo_dele'])) {
-        $this->request->data['Check'] = array_unique($this->request->data['Check']);
-        $this->request->data['Check'] = array_merge($this->request->data['Check']);
-        $this->request->data['photo_dele'] = array_unique($this->request->data['photo_dele']);
-        $this->request->data['photo_dele'] = array_merge($this->request->data['photo_dele']);
-      }
-
-        //画像/動画をセッションに保存
+        //画像をセッションに保存
         $this->Session->write('Image', $this->request->data['Image']);
         $this->_getParameter();
 
@@ -492,7 +477,6 @@ public function admin_edit($id = null){
         //バリデーションエラーで画像
         $this->Session->write('Image', $this->request->data['Image']);
 
-
         if (!empty($this->request->data['image'])) {
           $photcount = 0;
           foreach ($this->request->data['image'] as $key => $value) {
@@ -511,9 +495,10 @@ public function admin_edit($id = null){
           //降順
           ksort($this->request->data['Check']);
         }
-
         return false;
       }
+
+
     } else {
       //初期処理
       if (isset($id)) {
@@ -564,9 +549,7 @@ public function admin_edit($id = null){
           $this->Session->write('Image', $this->request->data['Image']);
         }
 
-
         $this->_getParameter();
-
         $options = array(
           'fields' => array(
             'Item.id','Item.title'
@@ -577,7 +560,6 @@ public function admin_edit($id = null){
           ),
           'recursive'  => -1
         );
-
         $relatedItems = $this->Item->find('all', $options);
 
         foreach ($relatedItems as $key => $relatedItem) {
@@ -588,7 +570,6 @@ public function admin_edit($id = null){
         $this->render('/Items/admin_edit');
       } elseif (isset($this->request->data['regist'])) {
         $data = $this->request->data;
-
         $data['Item']['item_genre'] = implode(",",$data['Item']['item_genre']);
         if (!empty($data['Image'])) {
           $data['Item']['image_flag'] = 1;
@@ -602,11 +583,12 @@ public function admin_edit($id = null){
         if ($this->Item->validates()) {
             $this->Item->save($data['Item']);
             $partner_id = $data['Item']['id'];
+            $delete_image = $this->Session->read('delete_image');
+            $this->Session->delete('delete_image');
 
             if (!empty($data['photo_dele'])) {
-              $data['photo_dele'] = array_merge($data['photo_dele']);
+              $data['photo_dele'] = array_merge($delete_image);
             }
-
             //画像削除
             if (!empty($data['photo_dele'])) {
               foreach ($data['photo_dele'] as $key => $photo_dele) {

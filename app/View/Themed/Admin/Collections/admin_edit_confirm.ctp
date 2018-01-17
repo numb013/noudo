@@ -1,23 +1,17 @@
 <html>
   <head>
-    <title>性格</title>
-    <?php echo $this->Html->script( 'jquery-2.2.3.min.js'); ?>
-    <link href="jquery.rateyo.min.css" rel="stylesheet" type="text/css">
+    <title>Index Page</title>
   </head>
   <body>
-<?php
-echo pr($data);
-
-?>
-    <h1>Add Pagedddddd</h1>
-    <?php echo $this->Form->create('Collections', array('type' => 'file', 'url' => 'edit_regist')); ?>
-    <?php echo $this->Form->input('Collection.id'); ?>
-    <table class="table table-striped table-bordered table-hover" id="dataTables-example">
-        <tr>
-          <th>職業名</th>
-          <td><?php echo $data['Collection']['title']; ?></td>
-          <?php echo $this->Form->hidden('Collection.title', array('value' => $data['Collection']['title'])); ?>
-        </tr>
+      <h1>Edit Page</h1>
+    <?php echo $this->Form->create('Collection', array('type' => 'file', 'url' => 'edit_regist')); ?>
+    <?php echo $this->Form->input('id'); ?>
+      <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+          <tr>
+            <th>タイトル</th>
+            <td><?php echo $data['Collection']['title']; ?></td>
+            <?php echo $this->Form->hidden('Collection.title', array('value' => $data['Collection']['title'])); ?>
+          </tr>
           <tr>
             <td>画像</td>
             <td>
@@ -43,55 +37,27 @@ echo pr($data);
               <?php endif; ?>
             </td>
           </tr>
-        <tr>
-          <th>テキスト</th>
-          <td><?php echo $data['Collection']['text']; ?></td>
-          <?php echo $this->Form->hidden('Collection.text', array('value' => $data['Collection']['text'])); ?>
-        </tr>
-    </table>
-    <div class="btn-area">
-        <div class="btn gray-b">
-                <?php echo $this->Form->submit('戻る', array('name' => 'back', 'type' => 'submit', 'label' => false, 'div' => false)); ?>
-        </div>
-        <div class="btn">
-                <?php echo $this->Form->submit('登録', array('name' => 'regist', 'type' => 'submit', 'label' => false, 'div' => false)); ?>
-        </div>
-    </div>
-    <?php echo $this->Html->link('一覧へ', array('controller' => 'Collections', 'action' => 'index')); ?>
-
-
-    <script type="text/javascript">
-      function photodelete(chkID){
-        Myid=document.getElementById(chkID);
-        if(Myid.checked == true){
-          myRet = confirm("画像を削除してもいいですか？");
-          if ( myRet == true ){
-             Myid.parentNode.style.display = 'none';
-          }　else {
-            Myid.checked = false;
-          }
+          <tr>
+            <th>テキスト</th>
+            <td><?php echo $data['Collection']['text']; ?></td>
+            <?php echo $this->Form->hidden('Collection.text', array('value' => $data['Collection']['text'])); ?>
+          </tr>
+      </table>
+    <?php
+      if (!empty($data['Check'])) {
+        foreach ($data['Check'] as $key => $CheckPhoto) {
+          echo $this->Form->hidden('photo_dele.'.$key, array('value' => $CheckPhoto['photo']));
         }
       }
-
-      var todoNum = 1;
-      function addPhoto(){
-          var txt = '<div id="'+ 'Image' + todoNum + '">'
-              + '<?php echo $this->Form->input("Image.'  + todoNum +  '", array("type" => "file", "label" => false)); ?>'
-              + '<input type="button" value="削除" onclick="del(' + todoNum + ');">'
-              + '</div>';
-          document.getElementById('show').innerHTML
-              = document.getElementById('show').innerHTML + txt;
-          todoNum++;
-      }
-      function del(todoNum) {
-        var photodel = 'Image' + todoNum;
-        var dom_obj=document.getElementById(photodel);
-        var dom_obj_parent=dom_obj.parentNode;
-        dom_obj_parent.removeChild(dom_obj);
-      }
-
-    </script>
-
-
+    ?>
+    <div class="btn-area">
+        <div class="btn gray-b">
+            <?php echo $this->Form->submit('戻る', array('name' => 'back', 'type' => 'submit', 'label' => false, 'div' => false)); ?>
+        </div>
+        <div class="btn">
+            <?php echo $this->Form->submit('登録', array('name' => 'regist', 'type' => 'submit', 'label' => false, 'div' => false)); ?>
+        </div>
+    </div>
+    <?php echo $this->Html->link('一覧', array('controller' => 'Collections', 'action' => 'index')); ?>
   </body>
 </html>

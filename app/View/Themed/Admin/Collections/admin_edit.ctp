@@ -1,25 +1,19 @@
 <html>
-<?php
-
-//echo pr($this->request->data);
-
-?>
   <head>
-    <title>性格</title>
-    <?php echo $this->Html->script( 'jquery-2.2.3.min.js'); ?>
-    <link href="jquery.rateyo.min.css" rel="stylesheet" type="text/css">
+    <title>Index Page</title>
   </head>
   <body>
-      <h1>Add Page</h1>
-    <?php echo $this->Form->create('Collections', array('type' => 'file', 'url' => 'edit')); ?>
-      <?php echo $this->Form->input('Collection.id'); ?>
+    <p>MySampleData Edit Form.</p>
+    <?php echo $this->Form->create('Collection', array('type' => 'file', 'url' => 'edit')); ?>
+    <?php echo $this->Form->input('id'); ?>
     <table class="table table-striped table-bordered table-hover" id="dataTables-example">
       <tr>
-        <th>店名</th>
+        <th>タイトル</th>
         <td>
-          <?php echo $this->Form->input('Collection.title', array('label' => false, 'div' => false)); ?>
+          <?php echo $this->Form->input('title', array('label' => false, 'div' => false)); ?>
         </td>
       </tr>
+
       <tr>
         <tr>
           <td>
@@ -36,36 +30,49 @@
           </td>
         </tr>
         <?php if(!empty($this->request->data['Image'])):?>
-          <?php foreach ($this->request->data['Image'] as $key => $photo): ?>
+          <?php foreach ($this->request->data['Image'] as $key => $phot): ?>
             <tr>
               <td> 画像</td>
               <td>
-                <?php  echo $this->Html->image($photo['url'] ,array('width' => '15%' )); ?>
+                <?php  echo $this->Html->image($phot['url'] ,array('width' => '15%' )); ?>
                 <?php echo $this->Form->input('Check.'.$key.'.photo', array(
                   'id' => 'phpto'.$key,
                   'onclick'=> "photodelete('phpto".$key."')",
                   'type' => 'checkbox',
                   'label' => '削除2',
                   'div' => false,
-                  'value' => $photo['url']
+                  'value' => $phot['url']
                   )); ?>
               </td>
             </tr>
-            <?php echo $this->Form->hidden('Collection.BeforeImage]['.$key.'][id]', array('value' => $photo['id'])); ?>
-            <?php echo $this->Form->hidden('Collection.BeforeImage]['.$key.'][url]', array('value' => $photo['url'])); ?>
+            <?php //echo $this->Form->hidden('BeforeImage]['.$key.'][id]', array('value' => $phot['id'])); ?>
+            <?php echo $this->Form->hidden('BeforeImage]['.$key.'][url]', array('value' => $phot['url'])); ?>
           <?php endforeach; ?>
         <?php endif;?>
         </tr>
       <tr>
         <th>テキスト</th>
-        <td>
-          <?php echo $this->Form->input('Collection.text', array('label' => false, 'div' => false)); ?>
-        </td>
+        <td><?php echo $this->Form->textarea('Collection.text', array('type' => 'text', 'label' => false, 'div' => false, 'rows' => 5, 'style' => 'width:100%')); ?></td>
       </tr>
-    </table>
-    <?php echo $this->Form->end('Submit'); ?>
-    <?php echo $this->Html->link('一覧へ', array('controller' => 'Collections', 'action' => 'index')); ?>
 
+    </table>
+    <?php
+    if (!empty($this->request->data['photo_dele'])) {
+      foreach ($this->request->data['photo_dele'] as $key => $PhotoDele) {
+        echo $this->Form->hidden('photo_dele]['.$key, array('value' => $PhotoDele));
+      }
+    } elseif (!empty($this->request->data['Check'])) {
+        foreach ($this->request->data['Check'] as $key => $CheckPhoto) {
+          echo $this->Form->hidden('photo_dele]['.$key, array('value' => $CheckPhoto['photo']));
+        }
+      }
+    ?>
+
+    <div class="buttom_edit" style="float:left; margin-right:50px;">
+      <?php echo $this->Form->end('submit') ;?>
+    </div>
+
+    <?php echo $this->Html->link('戻る', array('controller' => 'Collections', 'action' => 'index')); ?>
 
     <script type="text/javascript">
       function photodelete(chkID){
@@ -97,21 +104,7 @@
         var dom_obj_parent=dom_obj.parentNode;
         dom_obj_parent.removeChild(dom_obj);
       }
-
-        var sale_flag = $(".sale_flag:checked").val();
-        if (sale_flag == 1) {
-            $('.discount_tr').css('display', 'block');
-        }
-        $('.sale_flag').click(function(){
-            var value = $(this).val();
-            if (value == 1) {
-                $('.discount_tr').css('display', 'block');
-            } else {
-                $('.discount_tr').css('display', 'none');
-            }
-        });
     </script>
-
 
   </body>
 </html>

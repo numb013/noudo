@@ -51,6 +51,14 @@
           </td>
         </tr>
         <tr>
+          <td>おすすめアイテム</td>
+          <td>
+            <?php
+                echo $data['Item']['pick_up_item'] == 0 ? 'しない':'する';
+            ?>
+          </td>
+        </tr>
+        <tr>
           <td>シーズン</td>
           <td>
               <?php echo $seasons[$data['Item']['season']]; ?>

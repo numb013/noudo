@@ -64,7 +64,7 @@
                   )); ?>
               </td>
             </tr>
-            <?php echo $this->Form->hidden('BeforeImage]['.$key.'][id]', array('value' => $phot['id'])); ?>
+            <?php //echo $this->Form->hidden('BeforeImage]['.$key.'][id]', array('value' => $phot['id'])); ?>
             <?php echo $this->Form->hidden('BeforeImage]['.$key.'][url]', array('value' => $phot['url'])); ?>
           <?php endforeach; ?>
         <?php endif;?>
@@ -87,6 +87,24 @@
           ?>
         </td>
       </tr>
+
+      <tr>
+        <th>おすすめアイテム</th>
+        <td>
+            <?php
+              $options = array('0' => 'する', '1' => 'しない');
+              echo $this->Form->input('Item.pick_up_item', array(
+                  'legend' => false,
+                  'type' => 'radio',
+                  'options' => $options,
+                 'legend' => false,
+                 'class' => 'pick_up_item',
+                  'div' => false
+              ));
+             ?>
+        </td>
+      </tr>   
+
       <tr>
         <th> シーズン</th>
         <td>

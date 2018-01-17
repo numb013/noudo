@@ -100,6 +100,7 @@
           <td><?php echo $data['Item']['title']; ?></td>
           <td><?php echo $genre[$data['Item']['genre']]; ?></td>
           <td><?php echo $data['Item']['price']; ?></td>
+          <td><?php echo $data['Item']['pick_up_item'] == 0 ? 'しない':'する'; ?></td>
           <td><?php echo $data['Item']['sale_type'] == 0 ? '販売中':'sould out'; ?></td>
           <td><?php echo $this->Html->link('詳細', array('controller' => 'Items', 'action' => 'detail', $data['Item']['id'])); ?></td>
           <td><?php echo $this->Html->link('編集', array('controller' => 'Items', 'action' => 'edit', $data['Item']['id'])); ?></td>

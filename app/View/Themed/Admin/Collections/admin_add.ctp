@@ -1,12 +1,13 @@
 <html>
   <head>
-    <title>コレクション</title>
+    <title>Index Page</title>
     <?php echo $this->Html->script( 'jquery-2.2.3.min.js'); ?>
     <link href="jquery.rateyo.min.css" rel="stylesheet" type="text/css">
   </head>
   <body>
-      <h1>Add Page</h1>
-    <?php echo $this->Form->create('Collections', array('type' => 'file', 'url' => 'add')); ?>
+
+    <h1>Add Page</h1>
+    <?php echo $this->Form->create('Collection', array('type' => 'file', 'url' => 'add')); ?>
     <table class="table table-striped table-bordered table-hover" id="dataTables-example">
       <tr>
         <th>タイトル</th>
@@ -14,6 +15,7 @@
           <?php echo $this->Form->input('title', array('label' => false, 'div' => false)); ?>
         </td>
       </tr>
+
       <tr>
         <th>
            画像
@@ -49,13 +51,13 @@
        <?php endif;?>
       <tr>
         <th>テキスト</th>
-        <td>
-          <?php echo $this->Form->input('text', array('label' => false, 'div' => false)); ?>
-        </td>
+        <td><?php echo $this->Form->textarea('text', array('type' => 'text', 'label' => false, 'div' => false, 'rows' => 10, 'style' => 'width:100%')); ?></td>
       </tr>
+
+
     </table>
     <?php echo $this->Form->end('Submit'); ?>
-    <?php echo $this->Html->link('一覧へ', array('controller' => 'Collections', 'action' => 'index')); ?>
+    <?php echo $this->Html->link('一覧へ', array('controller' => 'Collections', 'action' => 'admin_index')); ?>
 
     <script type="text/javascript">
       function photodelete(chkID){
@@ -88,15 +90,6 @@
       }
 
     
-    
-    $('.sale_flag').click(function(){
-            var value = $(this).val();
-            if (value == 1) {
-                $('.discount_tr').css('display', 'table-row');
-            } else {
-                $('.discount_tr').css('display', 'none');
-            }
-        });
     </script>
   </body>
 </html>

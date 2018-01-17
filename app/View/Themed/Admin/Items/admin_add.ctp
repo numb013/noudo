@@ -80,10 +80,6 @@
         <td><?php echo $this->Form->textarea('item_text', array('type' => 'text', 'label' => false, 'div' => false, 'rows' => 10, 'style' => 'width:100%')); ?></td>
       </tr>
 
-      
-      
-      
-      
       <tr>
         <th> アイテムジャンル</th>
         <td>
@@ -98,6 +94,24 @@
           ?>
         </td>
       </tr>
+
+        <th>おすすめアイテム</th>
+        <td>
+            <?php
+              $options = array('0' => 'しない', '1' => 'する');
+              echo $this->Form->input('pick_up_item', array(
+                  'legend' => false,
+                  'type' => 'radio',
+                  'value' => 0,
+                  'options' => $options,
+                 'legend' => false,
+                 'class' => 'pick_up_item',
+                  'div' => false
+              ));
+             ?>
+        </td>
+
+
       <tr>
         <th> シーズン</th>
         <td>
