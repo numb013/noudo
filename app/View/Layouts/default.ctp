@@ -14,7 +14,7 @@
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
-$cakeDescription = __d('cake_dev', 'FDU-24 簡単で当たる！職業診断 -コアでマイナーで珍しい職業-');
+$cakeDescription = __d('cake_dev', 'NOUDO');
 $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 ?>
 <!DOCTYPE html>
@@ -31,21 +31,21 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
         </title>
 	<?php
 		echo $this->Html->meta('icon');
+		echo $this->Html->css('simple-line-icons.min');
+		echo $this->Html->css('bootstrap.min');
 		echo $this->Html->css('animate');
-		//echo $this->Html->css('icomoon');
-		echo $this->Html->css('bootstrap');
-		echo $this->Html->css('flexslider');
-                echo $this->Html->css('slider-pro');
-		echo $this->Html->css('style');
+		echo $this->Html->css('swiper.min');
+		echo $this->Html->css('layout.min');
+		echo $this->Html->css('slider-pro');
+		echo $this->Html->css('lightbox');
 		echo $this->Html->script('jquery.min.js');
-		echo $this->Html->script('main');
-                echo $this->Html->script('menu');
-		echo $this->Html->script('jquery.easing.1.3');
-		echo $this->Html->script('jquery.waypoints.min');
-		echo $this->Html->script('jquery.flexslider-min');
+		echo $this->Html->script('jquery-migrate.min');
+		echo $this->Html->script('menu');
 		echo $this->Html->script('bootstrap.min');
-		echo $this->Html->script('modernizr-2.6.2.min');
-                echo $this->Html->script('jquery.sliderPro.min');
+		echo $this->Html->script('jquery.back-to-top');
+		echo $this->Html->script('layout.min');
+		echo $this->Html->script('swiper.min');
+		echo $this->Html->script('lightbox');
 		echo $this->fetch('meta');
 		echo $this->fetch('css');
 		echo $this->fetch('script');
