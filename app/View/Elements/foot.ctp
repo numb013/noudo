@@ -1,13 +1,15 @@
-<footer id="fh5co-footer" role="contentinfo">
-  <div class="container">
-    <div class="col-md-12 fh5co-copyright text-center">
-      <p>&copy; 2016 Find Dream Under 24
-        <span>Sure to find the perfect profession to you that did not know until now</span>
-        <span class='footer_link'>
-        <?php echo $this->Html->link('お問い合わせ', array('controller' => 'Contacts', 'action' => 'index')); ?>
-      </span>
-      </p>
-    </div>
-  </div>
-</footer>
-</div>
+        <footer class="footer">
+            <div class="content container">
+                <div class="row">
+                    <div class="col-xs-6">
+                        <img class="footer-logo" src="img/logo-dark.png" alt="flameonepage Logo">
+                    </div>
+                    <div class="col-xs-6 text-right">
+                        <p class="margin-b-0"><a class="fweight-700" href="#">FlameOnePage</a> Theme Powered by: <a class="fweight-700" href="http://ft-seo.ch/">FairTech Studio</a></p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+        <!-- Back To Top -->
+        <a href="javascript:void(0);" class="js-back-to-top back-to-top">Top</a>

@@ -1,4 +1,4 @@
-<?php echo $this->Form->create('Item', array('type' => 'file', 'url' => 'index')); ?>
+<!-- <?php echo $this->Form->create('Item', array('type' => 'file', 'url' => 'index')); ?>
 <br>
 <br>
 <br>
@@ -45,56 +45,85 @@
   </tr>
 </table>
 
+ -->
 
-<div class="col-md-12 text-center" style="background-color:#000; padding:0px;">
-  <div class="col-md-12 col-sm-12 col-sm-push-0 col-xs-12 col-xs-push-0 col-top-mar" style="padding:0px;">
 
-    <div class="col-md-offset-0 text-center fh5co-heading job-box" style="clear: both;">
-      <div class="job-count">
-        <?php echo $this->Paginator->counter(array(
-          'format' => '<p>全{:count}件中/{:start}-{:end}件ヒット</p>'
-        ));?>
-      </div>
-      <div class="job-page">
-        <?php
-          echo $this->Paginator->first('<< ');
-          echo $this->Paginator->numbers(
-            array('separator' => '/','modulus'=>2));
-          echo $this->Paginator->last(' >>');
-        ?>
-      </div>
-    </div>
-  </div>
 
-  <div class="col-md-offset-0 text-center fh5co-heading job-box" style="clear: both;">
-    <?php foreach ($datas as $data): ?>
-      <div class="job-memu">
-        <a href="/ec/items/detail/<?php echo $data['Item']['id']; ?>">
-          <div class="photo-cut">
-            <?php echo $this->Html->image($data['Image'][0]['url'] ,array('width' => '100%' )); ?>
-          </div>
-            <p><?php echo $data['Item']['title'] ;?></p>
-            <p><?php echo $data['Item']['price'] ;?></p>
-            <p><?php echo $size[$data['Item']['size']] ;?></p>
-        </a>
-      </div>
-    <?php endforeach; ?>
-  </div>
-  <div class="col-md-offset-0 text-center fh5co-heading job-box" style="clear: both; background:#000;">
-    <div class="job-count">
-      <?php echo $this->Paginator->counter(array(
-        'format' => '<p>全{:count}件中/{:start}-{:end}件ヒット</p>'
-      ));?>
-    </div>
-    <div class="job-page">
-      <?php
-        echo $this->Paginator->first('<< ');
-        echo $this->Paginator->numbers(
-          array('separator' => '/','modulus'=>2));
-        echo $this->Paginator->last(' >>');
-      ?>
-    </div>
-  </div>
+
+        <!--========== PAGE LAYOUT ==========-->
+        <!-- About -->
+        <div id="about">
+            <div class="content-lg container">
+              <div class="row" style="padding:10px;">
+                  <div>
+                      <h2>ONLINE SHOP</h2>
+                      <p>Lorem ipsum dolor sit amet consectetur adipiscing elit sed tempor incididunt ut laboret</p>
+                  </div>
+              </div>
+
+
+                  <div class="col-md-offset-0 text-center fh5co-heading job-box" style="clear: both;">
+                    <div class="job-count">
+                      <?php echo $this->Paginator->counter(array(
+                        'format' => '<p>全{:count}件中/{:start}-{:end}件ヒット</p>'
+                      ));?>
+                    </div>
+                    <div class="job-page">
+                      <?php
+                        echo $this->Paginator->first('<< ');
+                        echo $this->Paginator->numbers(
+                          array('separator' => '/','modulus'=>2));
+                        echo $this->Paginator->last(' >>');
+                      ?>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Masonry Grid -->
+                <div class="row">
+                  <?php foreach ($datas as $data): ?>
+                    <div class="col-sm-3 pick_up_item sm-margin-b-50 wow animated fadeInLeft" data-wow-offset="40">
+                      <a href="/noudo/items/detail/<?php echo $data['Item']['id']; ?>">
+                        <div class="margin-b-5">
+                            <?php echo $this->Html->image($data['Image'][0]['url'] ,array('width' => '100%' )); ?>
+                        </div>
+                        <p class="price">￥<?php echo $data['Item']['price'] ;?></p>
+                      </a>
+                    </div>
+                  <?php endforeach; ?>
+                </div>
+
+                <div class="col-md-offset-0 text-center fh5co-heading job-box" style="clear: both; background:#000;">
+<!--                   <div class="job-count">
+                    <?php echo $this->Paginator->counter(array(
+                      'format' => '<p>全{:count}件中/{:start}-{:end}件ヒット</p>'
+                    ));?>
+                  </div> -->
+                  <div class="job-page">
+                    <?php
+                      echo $this->Paginator->first('<< ');
+                      echo $this->Paginator->numbers(
+                        array('separator' => '/','modulus'=>2));
+                      echo $this->Paginator->last(' >>');
+                    ?>
+                  </div>
+                </div>
+
+                <!-- End Masonry Grid -->
+            </div>
+
+
+        </div>
+        <!-- End About -->
+
+
+
+<script >// external js: masonry.pkgd.js
+$('.grid').masonry({
+itemSelector: '.grid-item',
+columnWidth: '.grid-sizer',
+percentPosition: true
+});
+</script>
+
 </div>
-</div>
-

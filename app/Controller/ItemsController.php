@@ -110,9 +110,25 @@ class ItemsController extends AppController {
         $datas['Image'] = $this->Image->find('all', $status);
       }
 
-      $this->set('title_for_layout', $datas['Item']['title'].'の仕事内容・なりかた・給料・向いてる性格');
-      $datas['title'] = $datas['Item']['title'].'の仕事内容・なりかた・給料・向いてる性格';
-      $datas['Item']['item_genre'] = explode(",", $datas['Item']['item_genre']);
+
+
+      $status = array(
+      'conditions' =>
+        array(
+          'Item.pick_up_item' => 1,
+          'Item.delete_flag' => 0
+        )
+      );
+      // 以下がデータベース関係
+      $datas['pick_up_item'] = $this->Item->find('all', $status);
+
+
+
+
+
+      // $this->set('title_for_layout', $datas['Item']['title'].'の仕事内容・なりかた・給料・向いてる性格');
+      // $datas['title'] = $datas['Item']['title'].'の仕事内容・なりかた・給料・向いてる性格';
+      // $datas['Item']['item_genre'] = explode(",", $datas['Item']['item_genre']);
 
       $this->_getParameter();
       $know_flag = 1;

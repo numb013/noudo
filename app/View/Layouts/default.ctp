@@ -38,6 +38,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 		echo $this->Html->css('layout.min');
 		echo $this->Html->css('slider-pro');
 		echo $this->Html->css('lightbox');
+		echo $this->Html->css('slider-pro.min');
 		echo $this->Html->script('jquery.min.js');
 		echo $this->Html->script('jquery-migrate.min');
 		echo $this->Html->script('menu');
@@ -46,6 +47,8 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 		echo $this->Html->script('layout.min');
 		echo $this->Html->script('swiper.min');
 		echo $this->Html->script('lightbox');
+		echo $this->Html->script('masonry.pkgd');
+		echo $this->Html->script('jquery.sliderPro.min');
 		echo $this->fetch('meta');
 		echo $this->fetch('css');
 		echo $this->fetch('script');
