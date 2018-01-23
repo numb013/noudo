@@ -1,66 +1,42 @@
-<br>
-<br>
-<br>
+<!-- Services -->
+<div id="services"
+        <div class="content-lg container">
+            <div class="row" style="padding:10px;">
+                <div>
+                    <h2>COLLECTION</h2>
+                    <p>Lorem ipsum dolor sit amet consectetur adipiscing elit sed tempor incididunt ut laboret</p>
+                </div>
+            </div>
+            <!--// end row -->
 
-<div class="col-md-12 text-center">
-    <table class="table table-striped table-bordered table-hover" id="dataTables-example">
-        <tr>
-          <th>店名</th>
-          <td><?php echo $data['Shop']['name']; ?></td>
-          <?php echo $this->Form->hidden('Shop.name', array('value' => $data['Shop']['name'])); ?>
-        </tr>
-        <tr>
-          <th>画像</th>
-          <td>
-            <?php if(!empty($data['Image'])):?>
-              <?php foreach ($data['Image'] as $key => $photo): ?>
-                <?php echo $this->Html->image($photo['url'] ,array('width' => '15%' )); ?>
-                <?php if(!empty($photo)):?>
-                <?php else: ?>
-                  なし
-                <?php endif; ?>
-              <?php endforeach; ?>
-            <?php else: ?>
-              なし
-            <?php endif; ?>
-          </td>
-        </tr>        
-        <tr>
-          <th>営業時間</th>
-          <td><?php echo $business_hour[$data['Shop']['business_hour_start'][0]].'～'.$business_hour[$data['Shop']['business_hour_end'][0]]; ?></td>
-        </tr>
-        <tr>
-          <th>郵便番号</th>
-          <td><?php echo $data['Shop']['zip']; ?></td>
-        </tr>
-        <tr>
-          <th>住所1</th>
-          <td><?php echo $data['Shop']['address1']; ?></td>
-        </tr>
-        <tr>
-          <th>住所2</th>
-          <td><?php echo $data['Shop']['address2']; ?></td>
-        </tr>
-        <tr>
-          <th>電話番号</th>
-          <td><?php echo $data['Shop']['tel']; ?></td>
-        </tr>
-        <tr>
-          <th>メールアドレス</th>
-          <td><?php echo $data['Shop']['mail_address']; ?></td>
-        </tr>
-        <tr>
-          <th>地図</th>
-          <td><?php echo '<iframe src='.$data['Shop']['map_url'].'width="90%" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>'; ?></td>
-        </tr>
-        <tr>
-          <th>テキスト</th>
-          <td><?php echo $data['Shop']['text']; ?></td>
-        </tr>
-    </table>    
-    
-    
-    
+            <div class="row row-space-1 margin-b-2">
+                            <div class="row">
+
+
+                              <?php foreach ($datas as $data): ?>
+                                <div class="col-md-4 item_name">
+                                  <div class="a">
+                                    <a href="/noudo/collections/detail/<?php echo $data['Collection']['id']; ?>" class="open-popup-link">
+                                      <?php echo $this->Html->image($data['Image'][0]['url'] ,array('width' => '100%' )); ?>
+                                      <div class="img-hover hand-parts">
+                                        <div class="c-table">
+                                          <div class="ct-cell">
+                                            <h3 class="img-title">
+                                                <?php echo $data['Collection']['title'] ;?>
+                                            </h3>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </a>
+                                  </div>
+                                </div>
+                              <?php endforeach; ?>
+
+
+                            </div>
+                          </div>
+            </div>
+            <!--// end row -->
+    </div>
 </div>
-
-
+<!-- End Service -->

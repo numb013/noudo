@@ -21,7 +21,7 @@
           <div class="collapse navbar-collapse nav-collapse">
             <div class="menu-container">
                 <ul class="nav navbar-nav navbar-nav-right">
-                    <li class="js_nav-item nav-item"><a class="nav-item-child nav-item-hover" href="index.html">Home</a></li>
+                    <li class="js_nav-item nav-item"><a class="nav-item-child nav-item-hover" href="/noudo/">Home</a></li>
                     <li class="js_nav-item nav-item"><a class="nav-item-child nav-item-hover" href="/noudo/Abouts">About</a></li>
                     <li class="js_nav-item nav-item"><a class="nav-item-child nav-item-hover" href="/noudo/Items">Online</a></li>
                     <li class="js_nav-item nav-item"><a class="nav-item-child nav-item-hover" href="/noudo/Collections">Collection</a></li>

@@ -164,8 +164,12 @@ margin-top:10px
 .accordion .panel-default>.panel-heading+.panel-collapse>.panel-body{
 font-size:16px;
 border-top:none;
-padding:0 30px 30px;
+padding:0 30px 0px 30px;
 margin-top:-1px
+}
+
+.panel-body {
+padding: 0 15px; 
 }
 
 .accordion .collapse.in,.accordion [aria-expanded=true]{
@@ -990,7 +994,7 @@ background:#999caa!important
 }
 
 .bg-color-sky-light{
-background:#fafafa!important
+background:#fff;
 }
 
 .row-space-1{

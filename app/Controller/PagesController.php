@@ -29,7 +29,7 @@ App::uses('AppController', 'Controller');
  * @link http://book.cakephp.org/2.0/en/controllers/pages-controller.html
  */
 class PagesController extends AppController {
-
+  public $uses = array('Image', 'Topimage', 'Collection');
 /**
  * This controller does not use a model
  *
@@ -52,7 +52,19 @@ class PagesController extends AppController {
 		public function display() {
 			$this->set('title_for_layout', '簡単で当たる！職業診断 -コアでマイナーで珍しい職業-');
 			$this->layout = "default";
-                        $this->render('home');
+
+			$status = array(
+      'conditions' =>
+        array(
+          'Topimage.delete_flag' => 0
+        )
+      );
+      // 以下がデータベース関係
+      $datas = $this->Topimage->find('all', $status);
+			$datas = $datas[0];
+      $this->set('datas',$datas);
+      $this->render('home');
+
 		}
 /**
  * Displays a view

@@ -63,21 +63,21 @@
 
 
                   <div class="col-md-offset-0 text-center fh5co-heading job-box" style="clear: both;">
-                    <div class="job-count">
+                    <!-- <div class="job-count">
                       <?php echo $this->Paginator->counter(array(
                         'format' => '<p>全{:count}件中/{:start}-{:end}件ヒット</p>'
                       ));?>
-                    </div>
-                    <div class="job-page">
+                    </div> -->
+                    <!-- <div class="job-page">
                       <?php
                         echo $this->Paginator->first('<< ');
                         echo $this->Paginator->numbers(
                           array('separator' => '/','modulus'=>2));
                         echo $this->Paginator->last(' >>');
                       ?>
-                    </div>
+                    </div> -->
                   </div>
-                </div>
+
 
                 <!-- Masonry Grid -->
                 <div class="row">
@@ -108,11 +108,9 @@
                     ?>
                   </div>
                 </div>
-
                 <!-- End Masonry Grid -->
             </div>
-
-
+          </div>
         </div>
         <!-- End About -->
 

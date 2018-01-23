@@ -37,33 +37,17 @@ class CollectionsController extends AppController {
   public $presetVars = true;
   public $paginate = array();
 
-
   public function index($para = null) {
-    $this->layout = 'default';
-    $this->paginate = array(
-      'limit' => 5,
+    $status = array(
+    'conditions' =>
+      array(
+        'Collection.delete_flag' => 0
+      )
     );
-    $this->Prg->commonProcess();
-                $this->paginate['conditions'] = $this->Collection->parseCriteria($this->passedArgs);
-    if (empty($this->request->data)) {
-      // 初期表示時
-      $this->paginate = array(
-        'conditions' => array(
-           'delete_flag' => '0'
-         ),
-        'order' => array(
-          'modified' => 'DESC',
-        ),
-      );
-    } else {
-      $this->paginate['conditions']['Collection.delete_flag'] = '0';
-    }
-
-    $datas = $this->paginate();
-    $this->_getParameter();
+    // 以下がデータベース関係
+    $datas = $this->Collection->find('all', $status);
     $this->set('datas',$datas);
   }
-
 
 
 
@@ -91,33 +75,16 @@ class CollectionsController extends AppController {
       );
       // 以下がデータベース関係
       $datas = $this->Collection->find('first', $status);
-    //echo pr($datas);
-    //exit();
-      if (!empty($datas['Collection']['image_flag'])) {
-        $id = $datas['Collection']['id'];
-        $status = array(
-          'conditions' =>
-          array(
-            'partner_id' => $id,
-            'partner_name' => 'Collection',
-            'delete_flag' => '0'
-          )
-        );
-        $datas['Image'] = $this->Image->find('all', $status);
-      }
+    // echo pr($datas);
+    // exit();
+
 
       $this->set('title_for_layout', $datas['Collection']['title']);
-      $datas['title'] = $datas['Collection']['title'];
+      // $datas['title'] = $datas['Collection']['title'];
 
 
       $this->_getParameter();
-      $know_flag = 1;
-      //直接urlからきたら$first来たら来たらをviewにおくる
-      if (empty($first)) {
-        $first = 1;
-        $this->set('first', $first);
-      }
-      $this->set(compact('datas'));
+      $this->set('datas',$datas);
     }
   }
 
@@ -266,7 +233,7 @@ class CollectionsController extends AppController {
         }
             $this->_getParameter();
             $this->render('/Collections/admin_add');
-        } elseif (isset($this->request->data['regist'])) {            
+        } elseif (isset($this->request->data['regist'])) {
         $data = $this->request->data;
         if (!empty($data['Image'])) {
           $data['Collection']['image_flag'] = 1;
@@ -479,7 +446,7 @@ public function admin_edit($id = null){
             $delete_image = $this->Session->read('delete_image');
             $this->Session->delete('delete_image');
 
-            if (!empty($data['photo_dele'])) {
+            if (!empty($delete_image)) {
               $data['photo_dele'] = array_merge($delete_image);
             }
             //画像削除

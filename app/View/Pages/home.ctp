@@ -1,88 +1,90 @@
-<aside id="fh5co-hero" class="js-fullheight">
-	<div class="flexslider js-fullheight">
-		<ul class="slides">
-			<li style="background-image: url(img/image_1.jpg);">
-				<div class="overlay-gradient"></div>
-				<div class="container">
-					<div class="col-md-10 text-center js-fullheight slider-text">
-						<div class="slider-text-inner">
-							<h2>Your gender?</h2>
-							<div class="parameter-frame">
-								<p class="parameter">
-									<?php echo $this->Html->link('MAN', array('controller' => 'Jobs','action' => 'index', '1'), array('class'=>'btn btn-primary btn-lg'));?>
-								</p>
-								<p class="parameter">
-									<?php echo $this->Html->link('WOMAN', array('controller' => 'Jobs','action' => 'index', '2'), array('class'=>'btn btn-primary btn-lg'));?>
-								</p>
-							</div>
-					</div>
-					</div>
-				</div>
-			</li>
-			<li style="background-image: url(img/image_1.jpg);">
-				<div class="overlay-gradient"></div>
-				<div class="container">
-					<div class="col-md-10 text-center js-fullheight slider-text">
-						<div class="slider-text-inner">
-							<h2>DO YOU LIKE?</h2>
-							<div class="parameter-frame">
-								<p class="parameter">
-									<?php echo $this->Html->link('MUSIC', array('controller' => 'Jobs', 'action' => 'index', '3'), array('class'=>'btn btn-primary btn-lg'));?>
-								</p>
-								<p class="parameter">
-									<?php echo $this->Html->link('SPORT', array('controller' => 'Jobs', 'action' => 'index', '4'), array('class'=>'btn btn-primary btn-lg'));?>
-								</p>
-							</div>
-					</div>
-					</div>
-				</div>
-			</li>
-			<li style="background-image: url(img/image_1.jpg);">
-				<div class="overlay-gradient"></div>
-				<div class="container">
-					<div class="col-md-10 text-center js-fullheight slider-text">
-						<div class="slider-text-inner">
-							<h2>DO YOU LIKE?</h2>
-							<div class="parameter-frame">
-								<p class="parameter">
-									<?php echo $this->Html->link('GAME', array('controller' => 'Jobs','action' => 'index', '5'), array('class'=>'btn btn-primary btn-lg'));?>
-								</p>
-								<p class="parameter">
-									<?php echo $this->Html->link('COOKING', array('controller' => 'Jobs','action' => 'index', '6'), array('class'=>'btn btn-primary btn-lg'));?>
-								</p>
-							</div>
-					</div>
-					</div>
-				</div>
-			</li>
-			</ul>
-		</div>
-</aside>
+<?php
+//echo $this->Html->image('../img/136507110.jpg', array('alt' => 'CakePHP'));
+?>
+        <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+            <div class="container">
+                <ol class="carousel-indicators">
+<?php foreach ($datas['Image'] as $key => $data): ?>
+                    <li data-target="#carousel-example-generic" data-slide-to=<?php echo $key; ?>></li>
+<?php endforeach; ?>
+                </ol>
+            </div>
 
-<div class="fh5co-cta" style="background-image: url(img/image_3.jpg);">
-	<div class="overlay"></div>
-	<div class="container">
-		<div class="col-md-12 text-center animate-box">
-			<h3 style="color:#fff; font-size:26px; margin-bottom:12px;">What is FDU-24 !?</h3>
-			<p style="font-size:18px;">
-				まだあなたが知らないだけで、この世界には色々な職業が存在します。「FDU-24:簡単で当たる！職業診断」はコアでマイナーで珍しい職業を紹介する職業診断を個性としています、もしかしたらあなたの能力が発揮できる職業が見つかるかもしれません。まずはトップ画面の２択のうち1つを選び診断スタートして下さい。
-				<!-- <?php echo $this->Html->link('Get started now!!', array('controller' => 'Pages','action' => 'content'), array('class' => 'btn btn-primary btn-outline with-arrow'));?> -->
-			</p>
-		</div>
-	</div>
-</div>
+            <div class="carousel-inner" role="listbox">
 
 
-<div class="fh5co-cta" style='background: #f7f7f7;'>
-  <div class="text-center container fh5co-heading">
-    <h3 style="color:#323232; margin-top:0px; font-size:18px;">転職に役だつ情報をピックアップ</h3>
-    <?php echo $this->Html->link('転職ニュースまとめ', array('controller' => 'Rsses', 'action' => 'index'), array('class' => 'occupation_link')); ?>
-  </div>
-</div>
-<div class="animate-box fh5co-cta">
-  <div class="text-center container fh5co-heading">
-    <h3 style="color:#323232; margin-top:0px; font-size:24px;">For inquiries from here</h3>
-        <!-- <?php echo $this->Html->link('お問い合わせ', array('controller' => 'Contacts', 'action' => 'index')); ?> -->
-        <a href="Contacts/index" class="occupation_link">お問い合わせ</a>
-  </div>
-</div>
+<?php foreach ($datas['Image'] as $data): ?>
+                <div class="item">
+<?php echo $this->Html->image($data['url'] ,array('width' => '100%' )); ?>
+                    <!-- <img class="img-responsive" src="../img/136507110.jpg.jpg" alt="Slider Image"> -->
+                    <div class="container">
+                        <div class="carousel-centered">
+                            <div class="margin-b-40">
+                                <h2 class="carousel-title">Personal Approach</h2>
+                                <p class="color-white">Lorem ipsum dolor amet consectetur adipiscing dolore magna aliqua <br/> enim minim estudiat veniam siad venumus dolore</p>
+                            </div>
+                            <a href="#" class="btn-theme btn-theme-sm btn-white-brd text-uppercase">Take a Tour</a>
+                        </div>
+                    </div>
+                </div>
+<?php endforeach; ?>
+            </div>
+        </div>
+        <!--========== SLIDER ==========-->
+
+
+
+      <!-- Services -->
+
+
+
+        <div id="services">
+            <div data-auto-height="true">
+                <div class="top_menu_wapper content row">
+                    <!--// end row -->
+                          <div class="margin-b-2">
+                            <div class="col-sm-4 fh5co-item">
+                              <a href="single.html" class="transition animate-box">
+																<?php
+																echo $this->Html->image('../img/image_53.jpg', array('alt' => 'CakePHP'));
+																?>
+                                <img src="img/top11.jpg" alt="Free HTML5 Website Template by FreeHTML5.co">
+                                <div class="fh5co-item-text-wrap">
+                                  <div class="fh5co-item-text">
+                                    <h3>Collection</h3>
+                                    <p class="margin-b-5">Lorem ipsum dolor amet consectetur ut consequat siad esqudiat dolor</p>
+                                  </div>
+                                </div>
+                              </a>
+                            </div>
+                            <div class="col-sm-4 fh5co-item">
+                              <a href="single.html" class="transition animate-box">
+																<?php
+																echo $this->Html->image('../img/image_53.jpg', array('alt' => 'CakePHP'));
+																?>
+                                <div class="fh5co-item-text-wrap">
+                                  <div class="fh5co-item-text">
+                                    <h3>Online Shop</h3>
+                                    <p class="margin-b-5">Lorem ipsum dolor amet consectetur ut consequat siad esqudiat dolor</p>
+                                  </div>
+                                </div>
+                              </a>
+                            </div>
+                            <div class="col-sm-4 fh5co-item">
+                              <a href="single.html" class="transition animate-box">
+																<?php
+																echo $this->Html->image('../img/image_53.jpg', array('alt' => 'CakePHP'));
+																?>
+                                <div class="fh5co-item-text-wrap">
+                                  <div class="fh5co-item-text">
+                                    <h3>About</h3>
+                                    <p class="margin-b-5">Lorem ipsum dolor amet consectetur ut consequat siad esqudiat dolor</p>
+                                  </div>
+                                </div>
+                              </a>
+                            </div>
+                          </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Service -->
