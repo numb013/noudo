@@ -81,8 +81,9 @@
 
                 <!-- Masonry Grid -->
                 <div class="row">
-                  <?php foreach ($datas as $data): ?>
-                    <div class="col-sm-3 pick_up_item sm-margin-b-50 wow animated fadeInLeft" data-wow-offset="40">
+                  <?php foreach ($datas as $key => $data): ?>
+
+                    <div class="col-sm-3 pick_up_item sm-margin-b-50 wow animated <?php echo $key%2==0 ?'fadeInLeft':'fadeInRight'; ?> data-wow-offset="40">
                       <a href="/noudo/items/detail/<?php echo $data['Item']['id']; ?>">
                         <div class="margin-b-5">
                             <?php echo $this->Html->image($data['Image'][0]['url'] ,array('width' => '100%' )); ?>
@@ -96,6 +97,7 @@
                         </p>
                       </a>
                     </div>
+
                   <?php endforeach; ?>
                 </div>
 

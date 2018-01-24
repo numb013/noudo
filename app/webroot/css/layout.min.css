@@ -1645,6 +1645,7 @@ margin-bottom:20px
     -webkit-transition: 0.9s;
     -o-transition: 0.9s;
     transition: 0.9s;
+	height: 300px;
 }
 
 .fh5co-item-text-wrap {
@@ -1657,6 +1658,7 @@ margin-bottom:20px
     -webkit-transition: 0.9s;
     -o-transition: 0.9s;
     transition: 0.9s;
+    	height: 300px;
 }
 .fh5co-item-text {
     position: absolute;

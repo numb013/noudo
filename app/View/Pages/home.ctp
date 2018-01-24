@@ -50,7 +50,7 @@
 																<?php
 																echo $this->Html->image('../img/image_53.jpg', array('alt' => 'CakePHP'));
 																?>
-                                <img src="img/top11.jpg" alt="Free HTML5 Website Template by FreeHTML5.co">
+                                <img src="img/top11.jpg" alt="">
                                 <div class="fh5co-item-text-wrap">
                                   <div class="fh5co-item-text">
                                     <h3>Collection</h3>
@@ -59,11 +59,15 @@
                                 </div>
                               </a>
                             </div>
+
+
+
                             <div class="col-sm-4 fh5co-item">
                               <a href="single.html" class="transition animate-box">
-																<?php
-																echo $this->Html->image('../img/image_53.jpg', array('alt' => 'CakePHP'));
-																?>
+                                <?php
+                                echo $this->Html->image('../img/image_53.jpg', array('alt' => 'CakePHP'));
+                                ?>
+                                <img src="img/top11.jpg" alt="">
                                 <div class="fh5co-item-text-wrap">
                                   <div class="fh5co-item-text">
                                     <h3>Online Shop</h3>
@@ -72,11 +76,15 @@
                                 </div>
                               </a>
                             </div>
+
+
+
                             <div class="col-sm-4 fh5co-item">
                               <a href="single.html" class="transition animate-box">
-																<?php
-																echo $this->Html->image('../img/image_53.jpg', array('alt' => 'CakePHP'));
-																?>
+                                <?php
+                                echo $this->Html->image('../img/image_53.jpg', array('alt' => 'CakePHP'));
+                                ?>
+                                <img src="img/top11.jpg" alt="">
                                 <div class="fh5co-item-text-wrap">
                                   <div class="fh5co-item-text">
                                     <h3>About</h3>
@@ -85,7 +93,11 @@
                                 </div>
                               </a>
                             </div>
-                          </div>
+
+
+
+
+
                 </div>
             </div>
         </div>
