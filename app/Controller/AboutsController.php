@@ -31,39 +31,27 @@ App::uses('File', 'Utility');
  * @package       app.Controller
  * @link http://book.cakephp.org/2.0/en/controllers/pages-controller.html
  */
-class TopimagesController extends AppController {
-  public $uses = array('Image', 'Genre', 'Topimage');
+class AboutsController extends AppController {
+  public $uses = array('Image', 'Genre', 'About');
   public $components = array('Search.Prg', 'Session', 'Master');
   public $presetVars = true;
   public $paginate = array();
 
 
   public function index($para = null) {
-    $this->layout = 'default';
-    $this->paginate = array(
-      'limit' => 5,
-    );
-    $this->Prg->commonProcess();
-                $this->paginate['conditions'] = $this->Topimage->parseCriteria($this->passedArgs);
-    if (empty($this->request->data)) {
-      // 初期表示時
-      $this->paginate = array(
-        'conditions' => array(
-           'delete_flag' => '0'
-         ),
-        'order' => array(
-          'modified' => 'DESC',
-        ),
+      $this->layout = "default";
+
+      $status = array(
+      'conditions' =>
+        array(
+          'About.delete_flag' => 0
+        )
       );
-    } else {
-      $this->paginate['conditions']['Topimage.delete_flag'] = '0';
-    }
-    $datas = $this->paginate();
-    $this->_getParameter();
-    $this->set('datas',$datas);
+      // 以下がデータベース関係
+      $datas = $this->About->find('all', $status);
+      $data = $datas[0];
+      $this->set('data',$data);
   }
-
-
 
 
   public function search_more($para = null) {
@@ -84,29 +72,29 @@ class TopimagesController extends AppController {
       $status = array(
       'conditions' =>
         array(
-          'Topimage.id' => $id,
-          'Topimage.delete_flag' => 0
+          'About.id' => $id,
+          'About.delete_flag' => 0
         )
       );
       // 以下がデータベース関係
-      $datas = $this->Topimage->find('first', $status);
+      $datas = $this->About->find('first', $status);
     //echo pr($datas);
     //exit();
-      if (!empty($datas['Topimage']['image_flag'])) {
-        $id = $datas['Topimage']['id'];
+      if (!empty($datas['About']['image_flag'])) {
+        $id = $datas['About']['id'];
         $status = array(
           'conditions' =>
           array(
             'partner_id' => $id,
-            'partner_name' => 'Topimage',
+            'partner_name' => 'About',
             'delete_flag' => '0'
           )
         );
         $datas['Image'] = $this->Image->find('all', $status);
       }
 
-      $this->set('title_for_layout', $datas['Topimage']['title']);
-      $datas['title'] = $datas['Topimage']['title'];
+      $this->set('title_for_layout', $datas['About']['title']);
+      $datas['title'] = $datas['About']['title'];
 
 
       $this->_getParameter();
@@ -123,12 +111,12 @@ class TopimagesController extends AppController {
 
   public function admin_index() {
     $this->layout = "default";
-    $datas = $this->Topimage->find('all',array(
+    $datas = $this->About->find('all',array(
         'conditions' => array(
-          'Topimage.delete_flag' => '0'
+          'About.delete_flag' => '0'
         ),
     ));
-    $this->_getParameter();
+
     $this->set('datas',$datas);
   }
 
@@ -185,9 +173,9 @@ class TopimagesController extends AppController {
         $this->request->data['Image'][$key]["url"] = "/files/updir/tmp/" ."{$now}_{$key}.{$ext}";
       }
       finfo_close($finfo);
-      $this->Topimage->set($this->request->data);
+      $this->About->set($this->request->data);
       // 2. モデル[ModelName]のvalidatesメソッドを使ってバリデーションを行う。
-      if ($this->Topimage->validates()) {
+      if ($this->About->validates()) {
 
         //画像削除
         if (!empty($this->request->data['Check'])) {
@@ -209,7 +197,7 @@ class TopimagesController extends AppController {
         $this->_getParameter();
         $options = array(
                 'fields' => array(
-                        'Topimage.id','Topimage.title'
+                        'About.id','About.title'
                 ),
                 'conditions' =>
                 array(
@@ -219,7 +207,7 @@ class TopimagesController extends AppController {
         );
 
         $this->set('data',$this->request->data);
-        $this->render('/Topimages/admin_confirm');
+        $this->render('/Abouts/admin_confirm');
       } else {
         if (!empty($this->request->data['Check'])) {
           foreach ($this->request->data['Check'] as $key => $Checkd) {
@@ -243,7 +231,7 @@ class TopimagesController extends AppController {
     }
 
     $this->_getParameter();
-    $this->Session->delete('image');
+
   }
 
   /**/
@@ -264,21 +252,21 @@ class TopimagesController extends AppController {
             $this->Session->write('image', $this->request->data['Image']);
         }
             $this->_getParameter();
-            $this->render('/Topimages/admin_add');
+            $this->render('/Abouts/admin_add');
         } elseif (isset($this->request->data['regist'])) {
         $data = $this->request->data;
         if (!empty($data['Image'])) {
-          $data['Topimage']['image_flag'] = 1;
+          $data['About']['image_flag'] = 1;
           foreach ($data['Image'] as $key => $value) {
-            $data['Image'][$key]['partner_name'] = 'Topimage';
+            $data['Image'][$key]['partner_name'] = 'About';
           }
         }
 
-        $this->Topimage->set($data);
+        $this->About->set($data);
         // 2. モデル[ModelName]のvalidatesメソッドを使ってバリデーションを行う。
-        if ($this->Topimage->validates()) {
-            $this->Topimage->save($data['Topimage']);
-            $partner_id = $this->Topimage->getLastInsertID();
+        if ($this->About->validates()) {
+            $this->About->save($data['About']);
+            $partner_id = $this->About->getLastInsertID();
             if (!empty($data['Image'])) {
                 foreach($data['Image'] as $key => $val){
                     $cut = 1;//カットしたい文字数
@@ -297,12 +285,12 @@ class TopimagesController extends AppController {
             }
 
           return $this->redirect(
-            array('controller' => 'Topimages', 'action' => 'admin_index')
+            array('controller' => 'Abouts', 'action' => 'admin_index')
           );
         } else {
 
           $this->set('data',$data);
-          $this->render('/Topimages/admin_add');
+          $this->render('/Abouts/admin_add');
         }
       }
     }
@@ -330,16 +318,16 @@ public function admin_edit($id = null){
     }
     $this->request->data['Image'] = array_merge($this->request->data['Image']);
     //画像セッション読み込み
-    if ($this->request->data['Topimage']['BeforeImage']) {
+    if ($this->request->data['About']['BeforeImage']) {
       $count = count($this->request->data['Image']);
       //追加なければセッションの値そのまま入れる
       if ($count == 0) {
-        $this->request->data['Image'] = $this->request->data['Topimage']['BeforeImage'];
+        $this->request->data['Image'] = $this->request->data['About']['BeforeImage'];
       } else {
         $countkey = $count - 1;
         foreach ($this->request->data['Image'] as $key => $phots) {
           if ($key == $countkey) {
-            foreach ($this->request->data['Topimage']['BeforeImage'] as $key => $value) {
+            foreach ($this->request->data['About']['BeforeImage'] as $key => $value) {
               $this->request->data['Image'][$count] = $value;
               $count++;
             }
@@ -370,9 +358,9 @@ public function admin_edit($id = null){
       }
       finfo_close($finfo);
 
-      $this->Topimage->set($this->request->data);
+      $this->About->set($this->request->data);
       // 2. モデル[ModelName]のvalidatesメソッドを使ってバリデーションを行う。
-      if ($this->Topimage->validates()) {
+      if ($this->About->validates()) {
         //画像削除チェックの入ったものを削除
 
         $delete_count = count($this->Session->read('delete_image'));
@@ -400,7 +388,7 @@ public function admin_edit($id = null){
         $this->Session->write('Image', $this->request->data['Image']);
         $this->_getParameter();
         $this->set('data',$this->request->data);
-        $this->render('/Topimages/admin_edit_confirm');
+        $this->render('/Abouts/admin_edit_confirm');
 
       } else {
         //バリデーションエラーで画像
@@ -432,11 +420,11 @@ public function admin_edit($id = null){
         $status = array(
         'conditions' =>
           array(
-            'Topimage.id' => $id,
+            'About.id' => $id,
           )
         );
         // 以下がデータベース関係
-        $this->request->data = $this->Topimage->find('first', $status);
+        $this->request->data = $this->About->find('first', $status);
         if (!empty($this->request->data['Image'])) {
             $this->Session->write('image', $this->request->data['Image']);
         }
@@ -460,21 +448,21 @@ public function admin_edit($id = null){
         }
 
         $this->_getParameter();
-        $this->render('/Topimages/admin_edit');
+        $this->render('/Abouts/admin_edit');
       } elseif (isset($this->request->data['regist'])) {
         $data = $this->request->data;
         if (!empty($data['Image'])) {
-          $data['Topimage']['image_flag'] = 1;
+          $data['About']['image_flag'] = 1;
           foreach ($data['Image'] as $key => $value) {
-            $data['Image'][$key]['Image']['partner_name'] = 'Topimage';
+            $data['Image'][$key]['Image']['partner_name'] = 'About';
           }
         }
 
-        $this->Topimage->set($data);
+        $this->About->set($data);
         // 2. モデル[ModelName]のvalidatesメソッドを使ってバリデーションを行う。
-        if ($this->Topimage->validates()) {
-            $this->Topimage->save($data['Topimage']);
-            $partner_id = $data['Topimage']['id'];
+        if ($this->About->validates()) {
+            $this->About->save($data['About']);
+            $partner_id = $data['About']['id'];
             $delete_image = $this->Session->read('delete_image');
             $this->Session->delete('delete_image');
 
@@ -512,10 +500,10 @@ public function admin_edit($id = null){
               }
             }
 
-          return $this->redirect( array('controller' => 'Topimages', 'action' => 'admin_index'));
+          return $this->redirect( array('controller' => 'Abouts', 'action' => 'admin_index'));
         } else {
           $this->set('data',$data);
-          $this->render('/Topimages/admin_add');
+          $this->render('/Abouts/admin_add');
         }
       }
     }
@@ -537,19 +525,19 @@ public function admin_edit($id = null){
             $status = array(
             'conditions' =>
               array(
-                'Topimage.id' => $id,
-                'Topimage.delete_flag' => 0
+                'About.id' => $id,
+                'About.delete_flag' => 0
               )
             );
             // 以下がデータベース関係
-            $datas = $this->Topimage->find('first', $status);
-            if ($datas['Topimage']['image_flag']) {
-              $id = $datas['Topimage']['id'];
+            $datas = $this->About->find('first', $status);
+            if ($datas['About']['image_flag']) {
+              $id = $datas['About']['id'];
               $status = array(
                 'conditions' =>
                 array(
                   'partner_id' => $id,
-                  'partner_name' => 'Topimage',
+                  'partner_name' => 'About',
                   'delete_flag' => '0'
                 )
               );
@@ -574,10 +562,10 @@ public function admin_edit($id = null){
       'delete_flag' => 1,
     );
     $conditions = array(
-      'Topimage.id' => $id,
+      'About.id' => $id,
     );
-    $this->Topimage->updateAll($status, $conditions);
-    return $this->redirect( array('controller' => 'Topimages', 'action' => 'admin_index'));
+    $this->About->updateAll($status, $conditions);
+    return $this->redirect( array('controller' => 'Abouts', 'action' => 'admin_index'));
   }
 
   public function _getSideContent($datas = null) {
@@ -594,7 +582,7 @@ public function admin_edit($id = null){
     //$new_content = $this->Topimage->find('all', $status);
     $status = array(
       'fields' => array(
-        'Topimage.id', 'Topimage.title', 'job_salary', 'personality'
+        'About.id', 'About.title', 'job_salary', 'personality'
       ),
       'conditions' =>
       array(
@@ -602,7 +590,7 @@ public function admin_edit($id = null){
       ),
       'recursive'  => -1
     );
-    $related = $this->Topimage->find('all', $status);
+    $related = $this->About->find('all', $status);
 
     $status = array(
     'conditions' => array(
@@ -614,7 +602,7 @@ public function admin_edit($id = null){
     'limit' => 6,
     );
     // 以下がデータベース関係
-    $core_content = $this->Topimage->find('all', $status);
+    $core_content = $this->About->find('all', $status);
                 shuffle($core_content);
                 $this->set(compact("related", "core_content"));
         }

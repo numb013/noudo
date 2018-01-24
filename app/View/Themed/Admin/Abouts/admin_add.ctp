@@ -7,7 +7,7 @@
   <body>
 
     <h1>Add Page</h1>
-    <?php echo $this->Form->create('Topimage', array('type' => 'file', 'url' => 'add')); ?>
+    <?php echo $this->Form->create('About', array('type' => 'file', 'url' => 'add')); ?>
     <table class="table table-striped table-bordered table-hover" id="dataTables-example">
       <tr>
         <th>タイトル</th>
@@ -19,12 +19,6 @@
         <th>テキスト</th>
         <td>
           <?php echo $this->Form->input('text', array('label' => false, 'div' => false)); ?>
-        </td>
-      </tr>
-      <tr>
-        <th>URL</th>
-        <td>
-          <?php echo $this->Form->input('url', array('label' => false, 'div' => false)); ?>
         </td>
       </tr>
       <tr>
@@ -62,7 +56,7 @@
        <?php endif;?>
     </table>
     <?php echo $this->Form->end('Submit'); ?>
-    <?php echo $this->Html->link('一覧へ', array('controller' => 'Topimages', 'action' => 'admin_index')); ?>
+    <?php echo $this->Html->link('一覧へ', array('controller' => 'Abouts', 'action' => 'admin_index')); ?>
 
     <script type="text/javascript">
       function photodelete(chkID){

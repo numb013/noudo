@@ -61,7 +61,6 @@ class PagesController extends AppController {
       );
       // 以下がデータベース関係
       $datas = $this->Topimage->find('all', $status);
-			$datas = $datas[0];
       $this->set('datas',$datas);
       $this->render('home');
 

@@ -4,7 +4,7 @@
         <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
             <div class="container">
                 <ol class="carousel-indicators">
-<?php foreach ($datas['Image'] as $key => $data): ?>
+<?php foreach ($datas as $key => $data): ?>
                     <li data-target="#carousel-example-generic" data-slide-to=<?php echo $key; ?>></li>
 <?php endforeach; ?>
                 </ol>
@@ -13,17 +13,19 @@
             <div class="carousel-inner" role="listbox">
 
 
-<?php foreach ($datas['Image'] as $data): ?>
+<?php foreach ($datas as $data): ?>
                 <div class="item">
-<?php echo $this->Html->image($data['url'] ,array('width' => '100%' )); ?>
+<?php echo $this->Html->image($data['Image'][0]['url'] ,array('width' => '100%' )); ?>
                     <!-- <img class="img-responsive" src="../img/136507110.jpg.jpg" alt="Slider Image"> -->
                     <div class="container">
                         <div class="carousel-centered">
                             <div class="margin-b-40">
-                                <h2 class="carousel-title">Personal Approach</h2>
-                                <p class="color-white">Lorem ipsum dolor amet consectetur adipiscing dolore magna aliqua <br/> enim minim estudiat veniam siad venumus dolore</p>
+                                <h2 class="carousel-title"><?php echo $data['Topimage']['title']; ?></h2>
+                                <p class="color-white">
+                                  <?php echo $data['Topimage']['text']; ?>
+                                </p>
                             </div>
-                            <a href="#" class="btn-theme btn-theme-sm btn-white-brd text-uppercase">Take a Tour</a>
+                            <a href=<?php echo $data['Topimage']['url']; ?> class="btn-theme btn-theme-sm btn-white-brd text-uppercase">Check</a>
                         </div>
                     </div>
                 </div>

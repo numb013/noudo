@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: 2018 年 1 朁E17 日 09:57
+-- Generation Time: 2018 年 1 朁E24 日 06:34
 -- サーバのバージョン： 10.1.25-MariaDB
 -- PHP Version: 7.1.7
 
@@ -21,6 +21,29 @@ SET time_zone = "+00:00";
 --
 -- Database: `nodo`
 --
+
+-- --------------------------------------------------------
+
+--
+-- テーブルの構造 `abouts`
+--
+
+CREATE TABLE `abouts` (
+  `id` int(10) NOT NULL,
+  `title` varchar(255) DEFAULT NULL COMMENT 'タイトル',
+  `text` text NOT NULL,
+  `image_flag` varchar(255) DEFAULT NULL COMMENT '画像フラグ',
+  `delete_flag` int(11) DEFAULT '0' COMMENT '削除',
+  `created` datetime NOT NULL COMMENT '作成日',
+  `modified` datetime DEFAULT NULL COMMENT '更新日'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- テーブルのデータのダンプ `abouts`
+--
+
+INSERT INTO `abouts` (`id`, `title`, `text`, `image_flag`, `delete_flag`, `created`, `modified`) VALUES
+(1, 'About', '人間の脳が熱に耐えられず溶けだす温度は[42℃]だといわれている。 私達は『接する人の脳を限界値42℃まで上げるような服つくり』をかかげ、中央に4と2をかけあわせたブレインアイコンでそれを示めす。 決められたパズルをはめていく様な、忠実な日常ではもの足らず歪んでライフアウトしていく日々。 アートに満ちた興奮と虚しさの中に生きる衣服を提案する。', '1', 0, '2018-01-24 06:29:50', '2018-01-24 06:29:50');
 
 -- --------------------------------------------------------
 
@@ -135,7 +158,17 @@ INSERT INTO `images` (`id`, `partner_id`, `partner_name`, `name`, `url`, `delete
 (112, 3, 'Collection', '201608sdfasdf2918ddd2724_0.jpg', '/files/updir/20180117063710_2.jpeg', 0, '2018-01-17 06:37:14', '2018-01-17 06:37:14'),
 (113, 12, 'Item', 'voice82724_0.jpg', '/files/updir/20180117090917_0.jpeg', 0, '2018-01-17 09:09:20', '2018-01-17 09:09:20'),
 (114, 12, 'Item', '20160829ASFAS182724_0.jpg', '/files/updir/20180117090917_1.jpeg', 0, '2018-01-17 09:09:20', '2018-01-17 09:09:20'),
-(115, 12, 'Item', '91sssss2724_0.jpg', '/files/updir/20180117090917_2.jpeg', 0, '2018-01-17 09:09:20', '2018-01-17 09:09:20');
+(115, 12, 'Item', '91sssss2724_0.jpg', '/files/updir/20180117090917_2.jpeg', 0, '2018-01-17 09:09:20', '2018-01-17 09:09:20'),
+(116, 10, 'Item', '272dsdsd4_0.jpg', '/files/updir/20180118113544_0.jpeg', 0, '2018-01-18 11:35:47', '2018-01-18 11:35:47'),
+(117, 10, 'Item', '20sfd724_0.jpg', '/files/updir/20180118113544_1.jpeg', 0, '2018-01-18 11:35:47', '2018-01-18 11:35:47'),
+(118, 10, 'Item', '20d182724_0.jpg', '/files/updir/20180118113544_2.jpeg', 0, '2018-01-18 11:35:47', '2018-01-18 11:35:47'),
+(119, 10, 'Item', '2s4_0.jpg', '/files/updir/20180118113544_3.jpeg', 0, '2018-01-18 11:35:47', '2018-01-18 11:35:47'),
+(120, 10, 'Item', '2d9182724_0.jpg', '/files/updir/20180118113544_4.jpeg', 0, '2018-01-18 11:35:47', '2018-01-18 11:35:47'),
+(121, 1, 'Topimage', '2724_0.jpg', '/files/updir/20180124054059_0.jpeg', 0, '2018-01-24 05:41:01', '2018-01-24 05:41:01'),
+(122, 2, 'Topimage', '201608291sdfasdf8ddd2724_0.jpg', '/files/updir/20180124054745_0.jpeg', 0, '2018-01-24 05:47:49', '2018-01-24 05:47:49'),
+(123, 0, 'About', '20d182724_0.jpg', '/files/updir/20180124061841_0.jpeg', 0, '2018-01-24 06:18:44', '2018-01-24 06:18:44'),
+(124, 0, 'About', '201608sdfasdf2918ddd2724_0.jpg', '/files/updir/20180124062720_0.jpeg', 0, '2018-01-24 06:27:23', '2018-01-24 06:27:23'),
+(125, 1, 'About', 'sss4_0.jpg', '/files/updir/20180124062924_0.jpeg', 0, '2018-01-24 06:29:50', '2018-01-24 06:29:50');
 
 -- --------------------------------------------------------
 
@@ -152,7 +185,7 @@ CREATE TABLE `items` (
   `item_genre` varchar(11) DEFAULT NULL,
   `sale_type` int(10) DEFAULT NULL,
   `season` varchar(255) DEFAULT NULL,
-  `ec_shop_code` varchar(255) DEFAULT NULL,
+  `ec_shop_code` text,
   `sale_flag` int(10) DEFAULT NULL,
   `discount` int(10) DEFAULT NULL,
   `pick_up_item` int(11) DEFAULT NULL,
@@ -167,9 +200,9 @@ CREATE TABLE `items` (
 --
 
 INSERT INTO `items` (`id`, `title`, `image_flag`, `price`, `genre`, `item_genre`, `sale_type`, `season`, `ec_shop_code`, `sale_flag`, `discount`, `pick_up_item`, `item_text`, `delete_flag`, `created`, `modified`) VALUES
-(10, 'あああ', '1', 17000, 5, '1', 0, '1', NULL, 0, NULL, NULL, 'テストテストテストテスト', '0', '2018-01-16 06:01:15', '2018-01-17 05:57:12'),
-(11, 'BBB', '1', 20000, 4, '1,2', 0, '2', NULL, 0, NULL, NULL, 'adfafdasfadfadf', '0', '2018-01-16 06:33:22', '2018-01-17 05:57:40'),
-(12, 'yyyy', '1', 20000, 4, '1', 0, '4', NULL, 0, NULL, NULL, 'ssss', '0', '2018-01-17 05:06:59', '2018-01-17 09:09:20');
+(10, 'あああ', '1', 17000, 5, '1', 0, '1', '                                    <form method=\"post\" action=\"//cart.ec-sites.jp/cart_step2/pc/pk00/\">\r\n                                    Size<select name=\"es_simple_attr_sel[]\" style=\"vertical-align:middle\">\r\n                                    <option value=\"0\">M</option>\r\n                                    <option value=\"1\">L</option>\r\n                                    <option value=\"2\">XL(soldout)</option>\r\n                                    </select>\r\n\r\n                                    <input type=\"hidden\" name=\"es_charset\" value=\"sjis\">\r\n\r\n                                    <input type=\"hidden\" name=\"es_item_id\" value=\"90\">\r\n                                    <input type=\"hidden\" name=\"es_shop_id\" value=\"5375\">\r\n                                    <input type=\"hidden\" name=\"es_stock_attr_flag\" value=\"0\">\r\n                                    <input type=\"submit\" name=\"es_submit\" value=\"カゴに入れる\" >\r\n                                    </form>', 0, NULL, 0, '【ヨシフ・スターリン(1873-1953)】の生い立ちがソースとなり生まれたプルオーバー。\r\n\r\n\r\n若い頃は、神学校での勉学に励み信仰心に溢れた少年だったが、やがて殺人や強盗などの犯罪を含む革命行動を繰り返しソビエト連邦最高指導者に登りつめる…\r\n\r\nそんな信仰人から独裁者に変貌する寸前の彼をブランド独自の解釈でプルオーバーとして構築。\r\n\r\n\r\n胸に施されたアップリケは、青年時のヨシフで顔左半分は最高指導者まで登り詰めた後世の顔が縫いこまれ心境の変化が表されている。その上からドローイングされた『Joseph(ヨシフ)』の文字や『1953(没年)』、散らされたペンキ跡はひとつひとつ表情が異なります。\r\n\r\n\r\nコットン地のスウェットにボールバイオウォッシュ(生地表面部分を微生物に食べさせた加工)を施すことで、着古した衣類の色味とアタリ、柔らかな肌触りと古着の様な風合いを再現。\r\n\r\n\r\n厚みのある10ozの柔らかなコットン地に、裏地を起毛させた保温性の高いプルーオーバーなっています。\r\n※アタリの強弱など一つ一つ表情が異なります。\r\n\r\n\r\nSHELL(cotton 100％)BODY LINING(COTTON52%　POLYESTER48%)<br><br>\r\n着用目安(ジャスト)…M/162〜167cm', '0', '2018-01-16 06:01:15', '2018-01-18 11:39:27'),
+(11, 'BBB', '1', 20000, 4, '1,2', 1, '2', NULL, 0, NULL, 1, 'adfafdasfadfadf', '0', '2018-01-16 06:33:22', '2018-01-17 11:06:19'),
+(12, 'yyyy', '1', 20000, 4, '1', 1, '4', NULL, 0, NULL, 1, 'ssss', '0', '2018-01-17 05:06:59', '2018-01-17 10:55:58');
 
 -- --------------------------------------------------------
 
@@ -226,11 +259,21 @@ INSERT INTO `shops` (`id`, `name`, `tdfk`, `shop_url`, `image_flag`, `delete_fla
 CREATE TABLE `topimages` (
   `id` int(10) NOT NULL,
   `title` varchar(255) DEFAULT NULL COMMENT 'タイトル',
+  `text` text NOT NULL,
+  `url` text NOT NULL,
   `image_flag` varchar(255) DEFAULT NULL COMMENT '画像フラグ',
-  `delete_flag` int(11) DEFAULT NULL COMMENT '削除',
+  `delete_flag` int(11) DEFAULT '0' COMMENT '削除',
   `created` datetime NOT NULL COMMENT '作成日',
   `modified` datetime DEFAULT NULL COMMENT '更新日'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- テーブルのデータのダンプ `topimages`
+--
+
+INSERT INTO `topimages` (`id`, `title`, `text`, `url`, `image_flag`, `delete_flag`, `created`, `modified`) VALUES
+(1, 'Personal Approach', 'rsonal Approachrsonal Approachrsonal Approachrsonal Approach', 'http://www.htmq.com/style/line-height.shtml', '1', 0, '2018-01-24 05:41:01', '2018-01-24 06:01:39'),
+(2, 'leave a review!', 'Enjoying Restlet Client? Help us make it better, leave a review!', 'http://www.htmq.com/style/line-height.shtml', '1', 0, '2018-01-24 05:47:49', '2018-01-24 06:01:05');
 
 -- --------------------------------------------------------
 
@@ -273,6 +316,12 @@ INSERT INTO `users` (`id`, `username`, `password`, `full_name`, `full_name_kana`
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `abouts`
+--
+ALTER TABLE `abouts`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `collections`
@@ -333,6 +382,11 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT for table `abouts`
+--
+ALTER TABLE `abouts`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+--
 -- AUTO_INCREMENT for table `collections`
 --
 ALTER TABLE `collections`
@@ -351,7 +405,7 @@ ALTER TABLE `genres`
 -- AUTO_INCREMENT for table `images`
 --
 ALTER TABLE `images`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=116;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=126;
 --
 -- AUTO_INCREMENT for table `items`
 --
@@ -371,7 +425,7 @@ ALTER TABLE `shops`
 -- AUTO_INCREMENT for table `topimages`
 --
 ALTER TABLE `topimages`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `users`
 --

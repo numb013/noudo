@@ -4,23 +4,18 @@
   </head>
   <body>
       <h1>Edit Page</h1>
-    <?php echo $this->Form->create('Topimage', array('type' => 'file', 'url' => 'edit_regist')); ?>
+    <?php echo $this->Form->create('About', array('type' => 'file', 'url' => 'edit_regist')); ?>
     <?php echo $this->Form->input('id'); ?>
       <table class="table table-striped table-bordered table-hover" id="dataTables-example">
           <tr>
             <th>タイトル</th>
-            <td><?php echo $data['Topimage']['title']; ?></td>
-            <?php echo $this->Form->hidden('Topimage.title', array('value' => $data['Topimage']['title'])); ?>
+            <td><?php echo $data['About']['title']; ?></td>
+            <?php echo $this->Form->hidden('About.title', array('value' => $data['About']['title'])); ?>
           </tr>
           <tr>
             <th>テキスト</th>
-            <td><?php echo $data['Topimage']['title']; ?></td>
-            <?php echo $this->Form->hidden('Topimage.text', array('value' => $data['Topimage']['text'])); ?>
-          </tr>
-          <tr>
-            <th>URL</th>
-            <td><?php echo $data['Topimage']['url']; ?></td>
-            <?php echo $this->Form->hidden('Topimage.url', array('value' => $data['Topimage']['url'])); ?>
+            <td><?php echo $data['About']['title']; ?></td>
+            <?php echo $this->Form->hidden('About.text', array('value' => $data['About']['text'])); ?>
           </tr>
           <tr>
             <td>画像</td>
@@ -63,6 +58,6 @@
             <?php echo $this->Form->submit('登録', array('name' => 'regist', 'type' => 'submit', 'label' => false, 'div' => false)); ?>
         </div>
     </div>
-    <?php echo $this->Html->link('一覧', array('controller' => 'Topimages', 'action' => 'index')); ?>
+    <?php echo $this->Html->link('一覧', array('controller' => 'Abouts', 'action' => 'index')); ?>
   </body>
 </html>

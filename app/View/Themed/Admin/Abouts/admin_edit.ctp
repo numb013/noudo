@@ -4,7 +4,7 @@
   </head>
   <body>
     <p>MySampleData Edit Form.</p>
-    <?php echo $this->Form->create('Topimage', array('type' => 'file', 'url' => 'edit')); ?>
+    <?php echo $this->Form->create('About', array('type' => 'file', 'url' => 'edit')); ?>
     <?php echo $this->Form->input('id'); ?>
     <table class="table table-striped table-bordered table-hover" id="dataTables-example">
       <tr>
@@ -17,12 +17,6 @@
         <th>テキスト</th>
         <td>
           <?php echo $this->Form->input('text', array('label' => false, 'div' => false)); ?>
-        </td>
-      </tr>
-      <tr>
-        <th>URL</th>
-        <td>
-          <?php echo $this->Form->input('url', array('label' => false, 'div' => false)); ?>
         </td>
       </tr>
       <tr>
@@ -78,7 +72,7 @@
       <?php echo $this->Form->end('submit') ;?>
     </div>
 
-    <?php echo $this->Html->link('戻る', array('controller' => 'Topimages', 'action' => 'index')); ?>
+    <?php echo $this->Html->link('戻る', array('controller' => 'Abouts', 'action' => 'index')); ?>
 
     <script type="text/javascript">
       function photodelete(chkID){

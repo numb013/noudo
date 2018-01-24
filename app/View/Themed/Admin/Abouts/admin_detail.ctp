@@ -7,15 +7,11 @@
     <table class="table table-striped table-bordered table-hover" id="dataTables-example">
         <tr>
           <td >タイトル</td>
-          <td><?php echo $data['Topimage']['title']; ?></td>
+          <td><?php echo $data['About']['title']; ?></td>
         </tr>
         <tr>
           <td >テキスト</td>
-          <td><?php echo $data['Topimage']['text']; ?></td>
-        </tr>
-        <tr>
-          <td >URL</td>
-          <td><?php echo $data['Topimage']['url']; ?></td>
+          <td><?php echo $data['About']['text']; ?></td>
         </tr>
         <tr>
           <td>画像</td>
@@ -35,9 +31,9 @@
         </tr>
         <tr>
           <td>編集</td>
-          <td><?php echo $this->Html->link('編集', array('controller' => 'Topimages', 'action' => 'edit', $data['Topimage']['id'])); ?></td>
+          <td><?php echo $this->Html->link('編集', array('controller' => 'Abouts', 'action' => 'edit', $data['About']['id'])); ?></td>
         </tr>
     </table>
-    <?php echo $this->Html->link('戻る', array('controller' => 'Topimages', 'action' => 'index')); ?>
+    <?php echo $this->Html->link('戻る', array('controller' => 'Abouts', 'action' => 'index')); ?>
   </body>
 </html>

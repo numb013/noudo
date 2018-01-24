@@ -108,6 +108,9 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 				<?php echo $this->Html->link('トップ画像', array('controller' => 'Topimages', 'action' => 'admin_index')); ?>
 			</li>
 			<li>
+				<?php echo $this->Html->link('アバウト', array('controller' => 'Abouts', 'action' => 'admin_index')); ?>
+			</li>
+			<li>
 				<?php echo $this->Html->link('店舗情報', array('controller' => 'Shops', 'action' => 'admin_index')); ?>
 			</li>
 			<li>
