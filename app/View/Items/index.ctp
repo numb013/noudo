@@ -87,7 +87,13 @@
                         <div class="margin-b-5">
                             <?php echo $this->Html->image($data['Image'][0]['url'] ,array('width' => '100%' )); ?>
                         </div>
-                        <p class="price">￥<?php echo $data['Item']['price'] ;?></p>
+                        <p class="price">
+                        <?php if($data['Item']['sale_type'] == 0): ?>
+                        ￥<?php echo $data['Item']['price'] ;?>
+                        <?php else: ?>
+                        SOULD OUT
+                        <?php endif; ?>
+                        </p>
                       </a>
                     </div>
                   <?php endforeach; ?>

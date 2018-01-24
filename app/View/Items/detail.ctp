@@ -30,7 +30,13 @@
                                     <li><?php echo $datas['Item']['title']; ?></li>
                                     <li class="price">￥<?php echo $datas['Item']['price']; ?><span class="tax">(tax.￥21,600)</span></li>
                                   </ul>
-                                  <?php echo $datas['Item']['ec_shop_code']; ?>
+
+                                <?php if($datas['Item']['sale_type'] == 0): ?>
+                                 <?php echo $datas['Item']['ec_shop_code']; ?>
+                                <?php else: ?>
+                                SOULD OUT
+                                <?php endif; ?>
+
                                 </div>
                                 <button type="submit" class="submit_1"><a href="../contact_input.php">このアイテムのお問い合わせ</a></button>
                                 <div class="detail_text">
@@ -63,7 +69,13 @@
                         <div class="margin-b-5">
                             <?php echo $this->Html->image($data['Image'][0]['url'] ,array('width' => '100%' )); ?>
                         </div>
-                        <p class="price">￥<?php echo $data['Item']['price'] ;?></p>
+                        <p class="price">
+                        <?php if($data['Item']['sale_type'] == 0): ?>
+                        ￥<?php echo $data['Item']['price'] ;?>
+                        <?php else: ?>
+                        SOULD OUT
+                        <?php endif; ?>
+                        </p>
                       </a>
                     </div>
                   <?php endforeach; ?>

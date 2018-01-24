@@ -116,7 +116,8 @@ class ItemsController extends AppController {
       'conditions' =>
         array(
           'Item.pick_up_item' => 1,
-          'Item.delete_flag' => 0
+          'Item.delete_flag' => 0,
+          'Item.sale_type' => 0
         )
       );
       // 以下がデータベース関係
