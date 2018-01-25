@@ -60,7 +60,7 @@
 							</div>
 						</div>
             <div class="contact-btn-feeld">
-              <div class="set-btn animated fadeInUp">
+              <div class="set-btn">
                 <?php echo $this->Form->button('確認する', array('type' => 'submit', 'label' => false, 'div' => false, 'class' => 'btn_submit', 'name' => 'confirm', 'value' => 'confirm')); ?>
                 <?php echo $this->Form->end(); ?>
               </div>
@@ -73,4 +73,3 @@
 
 
 
-	<?php echo $this->element('bottom'); ?>
