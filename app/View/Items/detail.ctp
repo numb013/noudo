@@ -34,7 +34,8 @@
                                 <?php if($datas['Item']['sale_type'] == 0): ?>
                                  <?php echo $datas['Item']['ec_shop_code']; ?>
                                 <?php else: ?>
-                                SOULD OUT
+                                
+                                <button type="submit" class="submit_1"><a href="#">SOULD OUT</a></button>
                                 <?php endif; ?>
 
                                 </div>
@@ -86,11 +87,32 @@
         <!-- End Latest Products -->
 
 
+<style>
+
+.sp-image {
+    position: relative;
+    display: block;
+    border: none;
+    width: 100% !important;
+    height: auto !important;
+    vertical-align: middle;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+}
+
+</style>
+
+
+
 <script>
 $( document ).ready(function( $ ) {
   $('#slider2').sliderPro({
-    width:900,//横幅
-    height:1000,//縦幅
+    width:736,//横幅
+    height:1100,//縦幅
     buttons: false,//ナビゲーションボタン
     shuffle: false,//スライドのシャッフル
     centerImage : true,

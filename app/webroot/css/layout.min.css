@@ -97,7 +97,7 @@ font-size:40px
 }
 
 h2{
-font-size:30px
+font-size:20px
 }
 
 .accordion .panel-title,h3,h4{
@@ -1023,7 +1023,7 @@ padding-bottom:80px
 }
 
 .content-lg{
-padding-top:100px;
+padding-top:75px;
 padding-bottom:30px
 }
 
@@ -1658,7 +1658,7 @@ margin-bottom:20px
     -webkit-transition: 0.9s;
     -o-transition: 0.9s;
     transition: 0.9s;
-    	height: 300px;
+    	height: 350px;
 }
 .fh5co-item-text {
     position: absolute;
@@ -1709,6 +1709,11 @@ margin-bottom:20px
 }
 
 @media (max-width: 400px){
+.content-lg{
+padding-top:15px;
+}
+
+
   .pick_up_item {
       width: 49%;
       padding: 5px;
@@ -1795,6 +1800,10 @@ li.price .tax{
   font-weight: 400;
   color: #000;
   font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", sans-serif;
+}
+
+#products {
+	padding: 0 10px;
 }
 
 /*.grid-item {
