@@ -1,12 +1,4 @@
 <div class="users form">
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
 <?php echo $this->Flash->render('auth'); ?>
 <?php echo $this->Form->create('User'); ?>
     <fieldset>
@@ -19,5 +11,5 @@
     </fieldset>
 <?php echo $this->Form->end(__('Login')); ?>
 </div>
-<a href="/ec/users/add">新規登録</a>
-<a href="/ec/PasswordReminders/">パスワードを忘れたはこちら</a>
+<a href="/users/add">新規登録</a>
+<a href="/PasswordReminders/">パスワードを忘れたはこちら</a>

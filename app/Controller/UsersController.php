@@ -56,6 +56,9 @@ class UsersController extends AppController {
          if ($this->Auth->login()) {
             $this->Cookie->write('Auth.User', $this->request->data['User'], false, '+4 weeks');
             $url = $this->Auth->redirect();
+            if(strpos($url,'admin') !== false) {
+                $url = '/Users/mypage';
+            }
             $this->redirect($url);
             exit();
          } else {
@@ -66,28 +69,60 @@ class UsersController extends AppController {
  
   public function logout() {
 		$this->Cookie->delete('Auth.User');
-                $this->Session->destroy();
+        $this->Session->destroy();
 		$this->redirect($this->Auth->logout());
 		$this->autoRender = false;
  }
  
- public function add() {
+public function add() {
     if ($this->request->is('post')) {
         $this->User->create();
-        $this->request->data['User']['username'] = $this->request->data['User']['mail_address'];
+        $this->request->data['User']['username'] = $this->request->data['User']['username'];
         $this->request->data['User']['role'] = 'author';
         if ($this->User->save($this->request->data)) {
             $this->Flash->success(__('The user has been saved'));
+            $content = $this->request->data;
+            $honbun='';
+            $honbun.="いつもお世話になっております。\n";
+            $honbun.="中村篤史 カスタマーサポートです。\n";
+            $honbun.="ただいまユーザー登録が完了いたしました。下記ユーザー名、パスワードでログインしてください。\n";
+            $honbun.="ユーザー名:".$content['User']['username']."\n";
+            $honbun.="パスワード:".$content['User']['password']."\n";
+            $honbun.="ログインURL:http://www.oneblow.shop/users/login　\n\n";
+
+            $honbun.="□□□□□□□□□□□□□□□□□\n";
+            $honbun.="\n";
+            $honbun.="『FUD-24』簡単で当たる！職業診断係";
+            $honbun.="\n";
+            $honbun.="メール oneblow0701@gmail.com\n";
+            $honbun.="\n";
+            $honbun.="□□□□□□□□□□□□□□□□□\n";
+
+            $title= 'ユーザー登録完了のお知らせ';
+            $header = 'From:FUD-24 簡単で当たる！職業診断';
+            $honbun = html_entity_decode($honbun, ENT_QUOTES, 'UTF-8');
+            $header = mb_encode_mimeheader($header);
+
+            if (mb_send_mail($content['User']['mail_address'], $title, $honbun, $header)) {
+                mb_language('japanese');
+                mb_internal_encoding('utf-8');
+                $title= 'ユーザー登録がありました';
+                $header = 'From:'.$content['User']['mail_address'];
+                $message = html_entity_decode($honbun, ENT_QUOTES, 'UTF-8');
+                mb_send_mail('oneblow0701@gmail.com' ,$title, $message, $header);
+                return true;
+            } else {
+                return false;
+            }
             return $this->redirect(
-              array('controller' => 'users', 'action' => 'mypage')
+                array('controller' => 'users', 'action' => 'mypage')
             );
         }
         $this->Flash->error(
-            __('The user could not be saved. Please, try again.')
+        __('The user could not be saved. Please, try again.')
         );
     }
-} 
-
+}
 
 public function mypage() {
 
@@ -166,6 +201,13 @@ public function user_edit() {
 
 public function admin_add() {
     if ($this->request->is('post')) {
+
+// 同じユーザーIDがあればNG
+// メールアドレスにしてほしい
+// ちゃんとしたアドレスか確認するためにメールを送る
+// 
+
+
         $this->User->create();
         if ($this->User->save($this->request->data)) {
             $this->Flash->success(__('The user has been saved'));

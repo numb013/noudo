@@ -47,12 +47,12 @@
 
       if(strpos($url,'admin') !== false) {
         if ($this->Auth->user('role') == 'author') {
-            // exit();
+          $this->render('/pages/home');
+        } else {
+          $this->theme = 'admin';
         }
-        $this->theme = 'admin';
       }
-
-      }
+    }
 
      public function index() {
          exit();

@@ -31,17 +31,29 @@
                                     <li class="price">￥<?php echo $datas['Item']['price']; ?><span class="tax">(tax.￥21,600)</span></li>
                                   </ul>
 
-                                <?php if($datas['Item']['sale_type'] == 0): ?>
-                                 <?php echo $datas['Item']['ec_shop_code']; ?>
-                                <?php else: ?>
-                                
-                                <button type="submit" class="submit_1"><a href="#">SOULD OUT</a></button>
-                                <?php endif; ?>
+                                  <?php if($datas['Item']['sale_type'] == 0): ?>
+                                  <?php echo $datas['Item']['ec_shop_code']; ?>
+                                  <?php else: ?>
+                                  <button type="submit" class="submit_1"><a href="#">SOULD OUT</a></button>
+                                  <?php endif; ?>
+
+                                  <?php if($datas['Item']['sale_type'] == 0): ?>
+                                        <?php echo $this->Form->create(array('type' => 'post', 'url' =>  '/Carts/')); ?>
+                                            <div class="col-md-12 text-center" style="padding:0px; position: static;">
+                                                <div class="set-btn">
+                                                    <?php echo $this->Form->input('レンタルする', array('type' => 'submit', 'label' => false, 'div' => false, 'class' => 'btn_submit')); ?>
+                                                    <?php $token = rand(0, 9999); ?>
+                                                    <?php echo $this->Form->hidden('token', array('value' => $token)); ?>
+                                                    <?php echo $this->Form->hidden('Item.id', array('value' => $datas['Item']['id'])); ?>
+                                                </div>
+                                            </div>
+                                        <?php echo $this->Form->end(); ?>
+                                  <?php endif; ?>
 
                                 </div>
                                 <button type="submit" class="submit_1"><a href="../contact_input.php">このアイテムのお問い合わせ</a></button>
                                 <div class="detail_text">
-                                <h3>アイテム説明</h3>
+                                  <h3>アイテム説明</h3>
                                   <p>
                                     <?php echo nl2br($datas['Item']['item_text']); ?>
                                   </p>
@@ -112,7 +124,7 @@
 $( document ).ready(function( $ ) {
   $('#slider2').sliderPro({
     width:736,//横幅
-    height:1100,//縦幅
+    height:850,//縦幅
     buttons: false,//ナビゲーションボタン
     shuffle: false,//スライドのシャッフル
     centerImage : true,

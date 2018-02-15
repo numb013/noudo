@@ -5,19 +5,20 @@
     <legend><?php echo __('Add User'); ?></legend>
     <table class="table table-striped table-bordered table-hover" id="dataTables-example">
       <tr>
-        <th>メールアドレス（ID）</th>
+        <th>アカウント名</th>
         <td>
-          <?php echo $this->Form->input('mail_address', array('label' => false, 'div' => false)); ?>
+          <?php echo $this->Form->input('username', array('label' => false, 'div' => false)); ?>
         </td>
         <th>パスワード</th>
         <td>
           <?php echo $this->Form->input('password', array('label' => false, 'div' => false)); ?>
         </td>
+        <th>メールアドレス</th>
+        <td>
+          <?php echo $this->Form->input('mail_address', array('label' => false, 'div' => false)); ?>
+        </td>
       </tr>
       </table>
-
-
-
     </fieldset>
 <?php echo $this->Form->end(__('Submit')); ?>
 </div>

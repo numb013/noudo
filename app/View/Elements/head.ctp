@@ -27,6 +27,12 @@
                     <li class="js_nav-item nav-item"><a class="nav-item-child nav-item-hover" href="/noudo/Collections">Collection</a></li>
                     <li class="js_nav-item nav-item"><a class="nav-item-child nav-item-hover" href="/noudo/Shops">Dealer</a></li>
                     <li class="js_nav-item nav-item"><a class="nav-item-child nav-item-hover" href="/noudo/Contacts">Contact</a></li>
+                    <?php if(!empty($member)): ?> 
+                        <li class="js_nav-item nav-item"><a class="nav-item-child nav-item-hover" href="/noudo/users/mypage">mypage</a></li>
+                        <li class="js_nav-item nav-item"><a class="nav-item-child nav-item-hover" href="/noudo/users/logout">logout</a></li>
+                    <?php else: ?>
+                        <li class="js_nav-item nav-item"><a class="nav-item-child nav-item-hover" href="/noudo/users/login">login</a></li>
+                    <?php endif; ?>
                 </ul>
             </div>
         </div>
