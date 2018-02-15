@@ -58,11 +58,20 @@ class PasswordRemindersController extends AppController {
        $key = $this->_getRandomString(32);
        $url = "http://www.oneblow.shop/PasswordReminders/reset?key=". $key;
 
+
+
+
        $data['PasswordReminders']['user_id'] = $user['id'];
        $data['PasswordReminders']['key'] = $key;
        $data['PasswordReminders']['mail_address'] = $user['mail_address'];
        $data['PasswordReminders']['limit_time'] = date('Y-m-d H:i:s' , strtotime('+15 minute'));
        $this->PasswordReminder->save($data['PasswordReminders']);
+
+echo '<pre>';
+print_r($url);
+echo '</pre>';
+exit();
+
 
      $honbun='';
        $honbun.="いつもお世話になっております。\n";
@@ -121,6 +130,8 @@ class PasswordRemindersController extends AppController {
     );
 
     $data = $this->PasswordReminder->find('first', $options); 
+
+
     if ($data['PasswordReminder']['auth_flag'] == 0) {
         $this->Session->write('key', $data['PasswordReminder']['key']);
         $user_id = $data['PasswordReminder']['user_id'];
@@ -137,7 +148,8 @@ class PasswordRemindersController extends AppController {
   public function password_reset($user_id = null, $passwordReminder_id = null) {
     if ($this->request->is('post')) {
        $data = $this->request->data;
-       $data['User']['id'] =$data['User']['id'];
+
+       $data['User']['id'] = $data['User']['id'];
        $data['User']['password'] = $data['PasswordReminders']['password'];
 
        if ($data['PasswordReminders']['password'] != $data['PasswordReminders']['password1']) {
@@ -146,9 +158,20 @@ class PasswordRemindersController extends AppController {
            $this->render('ec/PasswordReminders/password_reset');
        }
 
-       $this->User->set($data);
+       $this->User->set($data['User']);
        if ($this->User->validates()) {
-           if ($this->User->save()) {
+            $status = array(
+              'id' => $data['User']['id'],
+            );
+            $conditions = array(
+              'passwords' => $data['User']['password'],
+            );
+            // $this->User->updateAll($status, $conditions);
+
+           if ($this->User->updateAll($status, $conditions)) {
+
+
+
                $reminde['id'] = $data['passwordReminder']['id'];
                $reminde['auth_flag'] = 1; 
                $this->PasswordReminder->set($reminde);
