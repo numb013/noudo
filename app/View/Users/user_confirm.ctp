@@ -1,3 +1,8 @@
+        <div id="about">
+            <div class="bg-color-sky-light">
+                <div class="content-lg container">
+                    <div class="row">
+
 <div class="users form">
 <?php echo $this->Form->create('User', array('type' => 'post', 'url' => 'user_regist')); ?>
     <fieldset>
@@ -6,36 +11,50 @@
     <table class="table table-striped table-bordered table-hover" id="dataTables-example">
           <tr>
             <th>お名前</th>
+          </tr>
+          <tr>
             <td><?php echo $data['User']['full_name']; ?></td>
             <?php echo $this->Form->hidden('User.full_name', array('value' => $data['User']['full_name'])); ?>
           </tr>
           <tr>
             <th>お名前カナ</th>
+          </tr>
+          <tr>
             <td><?php echo $data['User']['full_name_kana']; ?></td>
             <?php echo $this->Form->hidden('User.full_name_kana', array('value' => $data['User']['full_name_kana'])); ?>
           </tr>
           <tr>
             <th>郵便番号</th>
+          </tr>
+          <tr>
             <td><?php echo $data['User']['zip']; ?></td>
             <?php echo $this->Form->hidden('User.zip', array('value' => $data['User']['zip'])); ?>
           </tr>
           <tr>
             <th>住所1</th>
+          </tr>
+          <tr>
             <td><?php echo $data['User']['address1']; ?></td>
             <?php echo $this->Form->hidden('User.address1', array('value' => $data['User']['address1'])); ?>
           </tr>
           <tr>
             <th>住所2</th>
+          </tr>
+          <tr>
             <td><?php echo $data['User']['address2']; ?></td>
             <?php echo $this->Form->hidden('User.address2', array('value' => $data['User']['address2'])); ?>
           </tr>
           <tr>
             <th>電話番号</th>
+          </tr>
+          <tr>
             <td><?php echo $data['User']['tel']; ?></td>
             <?php echo $this->Form->hidden('User.tel', array('value' => $data['User']['tel'])); ?>
           </tr>
           <tr>
             <th>メールアドレス（ID）</th>
+          </tr>
+          <tr>
             <td><?php echo $data['User']['mail_address']; ?></td>
             <?php echo $this->Form->hidden('User.mail_address', array('value' => $data['User']['mail_address'])); ?>
             <?php echo $this->Form->hidden('User.username', array('value' => $data['User']['mail_address'])); ?>
@@ -51,4 +70,9 @@
   				<?php echo $this->Form->submit('登録', array('name' => 'regist', 'type' => 'submit', 'label' => false, 'div' => false)); ?>
   			</div>
   	</div>
+</div>
+
+</div>
+</div>
+</div>
 </div>

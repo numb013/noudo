@@ -45,6 +45,7 @@
                                                     <?php $token = rand(0, 9999); ?>
                                                     <?php echo $this->Form->hidden('token', array('value' => $token)); ?>
                                                     <?php echo $this->Form->hidden('Item.id', array('value' => $datas['Item']['id'])); ?>
+                                                    <?php echo $this->Form->hidden('Item.count', array('value' => 1)); ?>
                                                 </div>
                                             </div>
                                         <?php echo $this->Form->end(); ?>

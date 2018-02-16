@@ -124,6 +124,7 @@
      
      public $components = array(
          'Flash',
+         'Session',
          'Auth' => array(
             'loginRedirect' => array('controller' => 'Dashboards', 'action' => 'admin_index'),
             'logoutRedirect' => array(

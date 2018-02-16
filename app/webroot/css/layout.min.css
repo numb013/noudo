@@ -1806,6 +1806,31 @@ li.price .tax{
 	padding: 0 10px;
 }
 
+#about table.table {
+    width: 95%;
+    /* max-width: 100%; */
+    /* margin-bottom: 20px; */
+    /* margin: 10px; */
+    margin: 0 auto;
+}
+
+.form_td {
+	padding: 18px !important;
+}
+.form_edit {
+    width: 100%;
+    height: 41px;
+    font-size: 14px;
+    font-weight: 400;
+    color: #464646;
+    /* background: #fafafa; */
+    border: 1px solid #d6d6d6;
+    border-radius: 0;
+     padding-left: 10px; 
+    /* margin: 8px; */
+    border-radius: 5px;
+}
+
 /*.grid-item {
   display: block;
   width: 32%;

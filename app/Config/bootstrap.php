@@ -110,5 +110,9 @@ CakeLog::config('error', array(
 	'file' => 'error',
 ));
 
+if (!isset($_SESSION)) {
+    session_start();
+} 
+
 CakePlugin::load('DebugKit');
 CakePlugin::load('Search');
