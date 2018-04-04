@@ -64,23 +64,19 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 <body>
 	<nav class="navbar navbar-default navbar-cls-top " role="navigation" style="margin-bottom: 0">
 			<div class="navbar-header">
-					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
-							<span class="sr-only">Toggle navigation</span>
-							<span class="icon-bar"></span>
-							<span class="icon-bar"></span>
-							<span class="icon-bar"></span>
-					</button>
-					<div class="navbar-brand">
-						<?php echo $this->Html->link('FDU_24', array('controller' => 'Dashboards', 'action' => 'index', 'class' => "navbar-brand")); ?>
-					</div>
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<div class="navbar-brand">
+					<?php echo $this->Html->link('NOUDO', array('controller' => 'Dashboards', 'action' => 'index', 'class' => "navbar-brand")); ?>
+				</div>
 			</div>
-<div style="color: white;
-				padding: 10px 10px 5px 50px;
-				float: right;
-				font-size: 16px;">
+			<div style="color: white;padding: 10px 10px 5px 50px;float: right;font-size: 16px;">
 				<?php echo $this->Html->link( 'Logout', array('controller' => 'users', 'action' => 'logout'),array('class'=>'btn btn-danger square-btn-adjust'));?>
-</div>
-
+			</div>
 	</nav>
 		 <!-- /. NAV TOP  -->
 <nav class="navbar-default navbar-side" role="navigation">

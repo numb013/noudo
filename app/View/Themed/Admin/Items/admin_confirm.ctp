@@ -71,6 +71,20 @@
               <?php endif; ?>
             </td>
           </tr>
+
+          <tr>
+            <th>サイズ</th>
+            <td>
+              <?php if(!empty($data['Item']['size'])):?>
+                <?php foreach ($data['Item']['size'] as $key => $size): ?>
+                  <?php echo '/'; ?>
+                  <?php echo $sizes[$size]; ?>
+                  <?php echo $this->Form->hidden('size][]', array('value' => $size)); ?>
+                <?php endforeach; ?>
+              <?php endif; ?>
+            </td>
+          </tr>
+
           <tr>
             <th>販売ステータス</th>
             <td>

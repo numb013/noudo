@@ -85,7 +85,7 @@
       </tr>
 
       <tr>
-        <th> アイテムジャンル</th>
+        <th>アイテムジャンル</th>
         <td>
           <?php
             echo $this->Form->input('Item.item_genre', array(
@@ -94,6 +94,27 @@
                 'div' => false,
                 'multiple'=> 'checkbox',
                 'options' => $item_genres,
+            ));
+          ?>
+        </td>
+      </tr>
+
+      <tr>
+        <th>サイズ</th>
+        <td>
+          <?php
+            echo $this->Form->input('Item.size', array(
+                'type' => 'select',
+                'label' => false,
+                'div' => false,
+                'multiple'=> 'checkbox',
+                'options' => array(
+                  '1' => 'S',
+                  '2' => 'M',
+                  '3' => 'L',
+                  '4' => 'LL',
+                  '5' => 'XL',
+                ),
             ));
           ?>
         </td>

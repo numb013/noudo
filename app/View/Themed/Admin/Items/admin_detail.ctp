@@ -55,6 +55,22 @@
             <?php endif; ?>
           </td>
         </tr>
+
+
+        <tr>
+          <td>サイズ</td>
+          <td>
+            <?php if(!empty($data['Item']['size'])):?>
+              <?php $count = 0; ?>
+              <?php foreach ($data['Item']['size'] as $key => $personal): ?>
+              <?php if ($count == '0') {  echo ''; } else { echo '/'; } ; ?>
+              <?php echo $sizes[$personal]; ?>
+              <?php $count++ ; ?>
+              <?php endforeach; ?>
+            <?php endif; ?>
+          </td>
+        </tr>
+
         <tr>
           <td>おすすめアイテム</td>
           <td>

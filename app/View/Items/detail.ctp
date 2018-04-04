@@ -66,6 +66,28 @@
             </div>
         </div>
 
+
+
+        <div id="products">
+            <div class="container">
+
+                <div class="row">
+                  <?php foreach ($datas['Image'] as $key => $data): ?>
+
+                    <div class="col-md-8 col-sm-8">
+                      <a href="#">
+                        <div style="float: left;">
+                            <?php echo $this->Html->image($data['Image']['url'] ,array('width' => '100%' )); ?>
+                        </div>
+                      </a>
+                    </div>
+
+                  <?php endforeach; ?>
+                </div>
+                </div>
+                </div>
+
+
         <!-- Latest Products -->
         <div id="products">
             <div class="container">

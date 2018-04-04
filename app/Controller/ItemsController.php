@@ -203,11 +203,6 @@ class ItemsController extends AppController {
   public function admin_add() {
     $this->layout = "default";
     if ($this->request->is(array('post', 'put'))) {
-
-
-
-
-
       //画像処理
       foreach ($this->request->data['Image'] as $key => $value) {
           if ($value['error'] == 4) {
@@ -349,6 +344,7 @@ class ItemsController extends AppController {
             $this->render('/Items/admin_add');
         } elseif (isset($this->request->data['regist'])) {
         $this->request->data['Item']['item_genre'] = implode(",", $this->request->data['Item']['item_genre']);
+        $this->request->data['Item']['size'] = implode(",", $this->request->data['Item']['size']);
         $data = $this->request->data;
         if (!empty($data['Image'])) {
           $data['Item']['image_flag'] = 1;
@@ -360,12 +356,8 @@ class ItemsController extends AppController {
         $this->Item->set($data);
         // 2. モデル[ModelName]のvalidatesメソッドを使ってバリデーションを行う。
         if ($this->Item->validates()) {
-
-
-
             $this->Item->save($data['Item']);
             $partner_id = $this->Item->getLastInsertID();
-
 
             if (!empty($data['Image'])) {
                 foreach($data['Image'] as $key => $val){
@@ -440,6 +432,7 @@ public function admin_edit($id = null){
       $this->Session->delete('image');
     }
     $image = $this->Session->read('image');
+
 
 
     //空のデータが入ってくるので削除
@@ -535,8 +528,6 @@ public function admin_edit($id = null){
         }
         return false;
       }
-
-
     } else {
       //初期処理
       if (isset($id)) {
@@ -549,6 +540,7 @@ public function admin_edit($id = null){
         // 以下がデータベース関係
         $this->request->data = $this->Item->find('first', $status);
         $this->request->data['Item']['item_genre'] = explode(",", $this->request->data['Item']['item_genre']);
+        $this->request->data['Item']['size'] = explode(",", $this->request->data['Item']['size']);
         if (!empty($this->request->data['Image'])) {
             $this->Session->write('image', $this->request->data['Image']);
         }
@@ -609,6 +601,7 @@ public function admin_edit($id = null){
       } elseif (isset($this->request->data['regist'])) {
         $data = $this->request->data;
         $data['Item']['item_genre'] = implode(",",$data['Item']['item_genre']);
+        $data['Item']['size'] = implode(",",$data['Item']['size']);
         if (!empty($data['Image'])) {
           $data['Item']['image_flag'] = 1;
           foreach ($data['Image'] as $key => $value) {
@@ -702,6 +695,7 @@ public function admin_edit($id = null){
               $datas['Image'] = $this->Image->find('all', $status);
             }
               $datas['Item']['item_genre'] = explode(",", $datas['Item']['item_genre']);
+              $datas['Item']['size'] = explode(",", $datas['Item']['size']);
               $datas['Item']['genre'] = explode(",", $datas['Item']['genre']);
               $this->_getParameter();
               $this->set('data',$datas);
@@ -771,9 +765,9 @@ public function admin_edit($id = null){
     $item_genres = $this->Master->getItemGenres();
     $genre = $this->Master->getGenre();
     $seasons = $this->Master->getSeason();
-                $size = $this->Master->getSize();
-                $discounts = $this->Master->getDiscount();
-    $this->set(compact("item_genres", "genre", "seasons", "size", "discounts"));
+    $sizes = $this->Master->getSize();
+    $discounts = $this->Master->getDiscount();
+    $this->set(compact("item_genres", "genre", "seasons", "sizes", "discounts"));
     return;
   }
 }

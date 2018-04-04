@@ -94,6 +94,27 @@
       </tr>
 
       <tr>
+        <th>サイズ</th>
+        <td>
+          <?php
+            echo $this->Form->input('Item.size', array(
+                'type' => 'select',
+                'label' => false,
+                'div' => false,
+                'multiple'=> 'checkbox',
+                'options' => array(
+                  '1' => 'S',
+                  '2' => 'M',
+                  '3' => 'L',
+                  '4' => 'LL',
+                  '5' => 'XL',
+                ),
+            ));
+          ?>
+        </td>
+      </tr>
+
+      <tr>
         <th>おすすめアイテム</th>
         <td>
             <?php
