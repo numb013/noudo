@@ -747,7 +747,7 @@ float:right
 }
 
 .page-on-scroll .header .navbar{
-    background: #ffffff7d;
+    background: #000;
     border-bottom-color: #adadad;
     transition-duration: .3s;
     transition-property: all;
@@ -769,7 +769,7 @@ display:inline-block
 }
 
 .page-on-scroll .header .nav-item-child{
-color:#000;
+color:#fff;
 transition-duration:.3s;
 transition-property:all;
 transition-timing-function:cubic-bezier(.7,1,.7,1)
@@ -1623,8 +1623,8 @@ p.price {
 @media screen and (max-width: 480px) {
 .grid-sizer,.grid-item {
   width: 47%;
-  margin: 0px;
-  padding: 0px;
+  margin: 3px;
+  padding: 3px;
 }
 .grid-item--width2 { width: 47%; }
 .grid-item--width3 { width: 47%; }
@@ -1714,7 +1714,7 @@ margin-bottom:20px
   }
 }
 
-@media (max-width: 400px){
+@media (max-width: 414px){
 .content-lg{
 padding-top:60px;
 }

@@ -120,6 +120,9 @@ class ItemsController extends AppController {
           'Item.sale_type' => 0
         )
       );
+
+
+
       // 以下がデータベース関係
       $datas['pick_up_item'] = $this->Item->find('all', $status);
 
