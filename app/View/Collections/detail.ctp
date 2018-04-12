@@ -8,18 +8,18 @@
                       <p>Lorem ipsum dolor sit amet consectetur adipiscing elit sed tempor incididunt ut laboret</p>
                   </div>
               </div>
-
-                    <div class="grid">
-                        <div class="grid-sizer"></div>
-                        <?php foreach ($datas['Image'] as $data): ?>
-                          <div class="grid-item">
-                            <a href="/noudo<?php echo $data['url']; ?>" data-lightbox="image">
-                              <?php echo $this->Html->image($data['url'] ,array('class' => 'sp-image', 'width' => '100%' )); ?>
-                            </a>
-                          </div>
-                        <?php endforeach; ?>
-                    </div>
- 
+                <div class="row collection_row">
+                  <div class="grid">
+                      <div class="grid-sizer"></div>
+                      <?php foreach ($datas['Image'] as $data): ?>
+                        <div class="grid-item">
+                          <a href="/noudo<?php echo $data['url']; ?>" data-lightbox="image">
+                            <?php echo $this->Html->image($data['url'] ,array('class' => 'sp-image', 'width' => '100%' )); ?>
+                          </a>
+                        </div>
+                      <?php endforeach; ?>
+                  </div>
+                </div>
                 <!-- End Masonry Grid -->
             </div>
         </div>

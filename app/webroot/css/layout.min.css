@@ -1719,6 +1719,9 @@ margin-bottom:20px
 padding-top:60px;
 }
 
+.collection_row {
+  padding-left: 10px;
+}
 
   .pick_up_item {
       width: 49%;

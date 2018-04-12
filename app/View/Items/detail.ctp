@@ -98,7 +98,29 @@
                 </div>
                 <!--// end row -->
 
-                <div class="row">
+
+                <div class="row collection_row">
+                  <div class="grid">
+                      <div class="grid-sizer"></div>
+                      <?php foreach ($datas['pick_up_item'] as $data): ?>
+                        <div class="grid-item wow animated">
+                          <a href="/noudo/items/detail/<?php echo $data['Item']['id']; ?>">
+                            <?php echo $this->Html->image($data['Image'][0]['url'] ,array('width' => '100%' )); ?>
+                          <p class="price">
+                          <?php if($data['Item']['sale_type'] == 0): ?>
+                          ￥<?php echo $data['Item']['price'] ;?>
+                          <?php else: ?>
+                          SOULD OUT
+                          <?php endif; ?>
+                          </p>
+                          </a>
+                        </div>
+                      <?php endforeach; ?>
+                  </div>
+
+
+
+<!--                 <div class="row1">
                   <?php foreach ($datas['pick_up_item'] as $data): ?>
                     <div class="col-sm-3 pick_up_item sm-margin-b-50 wow animated fadeInLeft" data-wow-offset="40">
                       <a href="/noudo/items/detail/<?php echo $data['Item']['id']; ?>">
@@ -115,7 +137,10 @@
                       </a>
                     </div>
                   <?php endforeach; ?>
-                </div>
+                </div> -->
+
+
+
                 <!--// end row -->
             </div>
         </div>
@@ -123,7 +148,6 @@
 
 
 <style>
-
 .sp-image {
     position: relative;
     display: block;
@@ -138,9 +162,15 @@
     left: 0;
     margin: auto;
 }
-
 </style>
 
+<script >// external js: masonry.pkgd.js
+$('.grid').masonry({
+itemSelector: '.grid-item',
+columnWidth: '.grid-sizer',
+percentPosition: true
+});
+</script>
 
 
 <script>
